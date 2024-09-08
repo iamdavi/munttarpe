@@ -1,7 +1,7 @@
 <template>
-  <v-responsive class="border rounded" max-height="300">
+  <v-responsive>
     <v-app :theme="theme">
-      <v-app-bar class="px-3">
+      <v-app-bar class="px-3" :absolute="true">
         <nav v-if="!userStore.loadingSession">
           <router-link to="/" v-if="userStore.userData">Home</router-link> |
           <router-link to="/login" v-if="!userStore.userData">Login</router-link> |
