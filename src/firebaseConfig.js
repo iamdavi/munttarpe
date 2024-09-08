@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBc7Kncm9hRqqkxf-qvN-DxHi8c9-7zIYc",
-    authDomain: "vue-3-2022.firebaseapp.com",
-    projectId: "vue-3-2022",
-    storageBucket: "vue-3-2022.appspot.com",
-    messagingSenderId: "437721204864",
-    appId: "1:437721204864:web:6827a521e3a8bb008a3e65",
+  apiKey: "AIzaSyAkTLx_HUbwKOjXsPHJcv_bkthypiM0aN4",
+  authDomain: "munttarpe-51210.firebaseapp.com",
+  projectId: "munttarpe-51210",
+  storageBucket: "munttarpe-51210.appspot.com",
+  messagingSenderId: "649730358082",
+  appId: "1:649730358082:web:df891cafceed7a27d666db",
 };
 
 initializeApp(firebaseConfig);
