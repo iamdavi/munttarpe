@@ -1,13 +1,16 @@
 <template>
   <v-app-bar class="px-3" :absolute="true">
-    <v-img
-      class="mx-2"
-      :src="logo"
-      max-height="30"
-      max-width="30"
-      contain
-    ></v-img>
-    <v-app-bar-title> Munttarpe </v-app-bar-title>
+    <router-link to="/">
+      <v-img
+        class="mx-2"
+        to="/"
+        :src="logo"
+        height="30"
+        width="30"
+        contain
+      ></v-img>
+    </router-link>
+    <v-app-bar-title to="/"> Munttarpe </v-app-bar-title>
     <!--
     <nav v-if="!userStore.loadingSession">
       <router-link to="/" v-if="userStore.userData">Home</router-link> |
