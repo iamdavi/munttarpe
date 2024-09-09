@@ -1,3 +1,7 @@
+:root {
+    --green-munttarpe: #03c03c;
+}
+
 .white-space-unset {
     white-space: unset;
 }
@@ -79,4 +83,106 @@ svg.active .svg-elem-5 {
     100% {
         opacity: 1;
     }
+}
+
+.text-green-munttarpe {
+    color: var(--green-munttarpe);
+}
+
+/*This is styling for the static h1 tag with the word 'communication'*/
+/*This is the dynamic h1 class where all the changes are controlled from*/
+.changingtext::before {
+    content: "humanising";
+    color: var(--green-munttarpe);
+    animation-name: mychangea;
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+/*These are the keyframes that change the titles in the dynamic h1; I've created a sequence with varying opacities to produce a smoother transition between titles - feel free to further tweak these to your preference*/
+@keyframes mychangea {
+    0% {
+        content: "un equipo";
+        opacity: 0.58;
+    }
+
+    10% {
+        content: "un equipo";
+        opacity: 1;
+    }
+
+    19% {
+        content: "un equipo";
+        opacity: 0;
+    }
+
+    20% {
+        content: "una familia";
+        opacity: 0;
+    }
+
+    30% {
+        content: "una familia";
+        opacity: 1;
+    }
+
+    39% {
+        content: "una familia";
+        opacity: 0;
+    }
+
+    40% {
+        content: "un estilo de vida";
+        opacity: 0;
+    }
+
+    50% {
+        content: "un estilo de vida";
+        opacity: 1;
+    }
+
+    59% {
+        content: "un estilo de vida";
+        opacity: 0;
+    }
+
+    60% {
+        content: "samurais";
+        opacity: 0;
+    }
+
+    70% {
+        content: "samurais";
+        opacity: 1;
+    }
+
+    79% {
+        content: "samurais";
+        opacity: 0;
+    }
+
+    80% {
+        content: "una tropa";
+        opacity: 0;
+    }
+
+    90% {
+        content: "una tropa";
+        opacity: 1;
+    }
+
+    99% {
+        content: "una tropa";
+        opacity: 0;
+    }
+
+    100% {
+        content: "un equipo";
+        opacity: 0;
+    }
+}
+
+.align-content-center {
+    align-content: center;
 }

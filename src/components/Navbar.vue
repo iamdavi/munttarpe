@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="px-3" :absolute="true">
+  <v-app-bar flat :color="isTransparent ? 'transparent' : undefined">
     <router-link to="/">
       <v-img
         class="mx-2"
@@ -34,18 +34,28 @@
       "
       @click="onClick"
     ></v-btn>
-    <v-divider class="mx-3" vertical></v-divider>
+    <!--<v-divider class="mx-3" vertical></v-divider>-->
     <v-btn icon="mdi-login" to="/login"></v-btn>
   </v-app-bar>
 </template>
 
 <script setup>
+import { ref, onBeforeMount } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useTheme } from "vuetify";
 import logo from "@/assets/munttarpe_logo.svg";
 
 const userStore = useUserStore();
 const theme = useTheme();
+const isTransparent = ref(true);
+
+function onScrollTrans(e) {
+  isTransparent.value = !(e.target.documentElement.scrollTop > 200);
+}
+
+onBeforeMount(() => {
+  window.addEventListener("scroll", onScrollTrans);
+});
 
 function onClick() {
   theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
