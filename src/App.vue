@@ -2,8 +2,8 @@
   <v-responsive>
     <v-app>
       <Navbar />
-      <v-main>
-        <v-container>
+      <v-main class="py-0">
+        <v-container class="py-0 h-screen">
           <router-view></router-view>
         </v-container>
       </v-main>

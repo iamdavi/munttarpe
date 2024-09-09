@@ -7,6 +7,7 @@
       max-width="30"
       contain
     ></v-img>
+    <v-app-bar-title> Munttarpe </v-app-bar-title>
     <!--
     <nav v-if="!userStore.loadingSession">
       <router-link to="/" v-if="userStore.userData">Home</router-link> |
@@ -23,15 +24,14 @@
     <v-spacer></v-spacer>
 
     <v-btn
-      :prepend-icon="
+      :icon="
         theme.global.current.value.dark
           ? 'mdi-weather-night'
           : 'mdi-weather-sunny'
       "
-      text="Toggle Theme"
-      slim
       @click="onClick"
     ></v-btn>
+    <v-divider class="mx-3" vertical></v-divider>
     <v-btn icon="mdi-login" to="/login"></v-btn>
   </v-app-bar>
 </template>
@@ -39,7 +39,7 @@
 <script setup>
 import { useUserStore } from "@/stores/user";
 import { useTheme } from "vuetify";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/munttarpe_logo.svg";
 
 const userStore = useUserStore();
 const theme = useTheme();
