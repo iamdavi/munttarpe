@@ -186,3 +186,7 @@ svg.active .svg-elem-5 {
 .align-content-center {
     align-content: center;
 }
+
+.mt-container {
+    margin-top: 4rem;
+}

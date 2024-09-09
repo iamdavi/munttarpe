@@ -86,6 +86,12 @@ const drawer = ref(false);
 const group = ref(null);
 const items = ref([
   {
+    title: "Inicio",
+    value: "inicio",
+    link: "/",
+    icon: "mdi-home",
+  },
+  {
     title: "Equipos",
     value: "equipos",
     link: "/equipos",
