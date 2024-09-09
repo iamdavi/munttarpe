@@ -10,8 +10,5 @@
 </template>
 
 <script setup>
-import { useTheme } from "vuetify";
 import Navbar from "@/components/Navbar.vue";
-
-const theme = useTheme();
 </script>

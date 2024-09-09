@@ -92,7 +92,7 @@ svg.active .svg-elem-5 {
 /*This is styling for the static h1 tag with the word 'communication'*/
 /*This is the dynamic h1 class where all the changes are controlled from*/
 .changingtext::before {
-    content: "humanising";
+    content: "un equipo";
     color: var(--green-munttarpe);
     animation-name: mychangea;
     animation-duration: 12s;
