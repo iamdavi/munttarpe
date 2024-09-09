@@ -18,61 +18,50 @@ const handleSubmit = async () => {
 
 <template>
   <v-row class="h-100" align="center" justify="center">
-    <v-col lg="6" md="8" sm="12">
+    <v-col lg="4" md="6" sm="12">
       <v-card variant="tonal">
-        <v-row :no-gutters="true">
-          <v-col cols="12">
-            <v-img
-              gradient="to top right, rgba(0,0,0,.33), rgba(62,171,54,.7)"
-              :aspect-ratio="9 / 16"
-              :src="login"
-              min-width="200px"
-              min-height="200px"
-              max-height="350px"
-              cover
-            ></v-img>
-          </v-col>
-          <v-col cols="12">
-            <v-form
-              class="h-100 d-flex flex-column"
-              @submit.prevent="handleSubmit"
+        <v-img
+          class="align-end text-white"
+          position="top"
+          height="200"
+          :src="login"
+          gradient="to right top, rgb(9,73,4), rgba(9,73,4,50%)"
+          cover
+        >
+          <v-card-title class="text-h5 pb-0"> Inicia sesión </v-card-title>
+          <v-card-subtitle class="white-space-unset mb-2">
+            Accede al panel desde el que podrás administrar el contenido de la
+            página
+          </v-card-subtitle>
+        </v-img>
+        <v-form class="h-100 d-flex flex-column" @submit.prevent="handleSubmit">
+          <v-card-text class="pb-1">
+            <v-text-field
+              type="email"
+              label="Email"
+              placeholder="Ingrese email"
+              variant="underlined"
+              v-model.trim="email"
+            ></v-text-field>
+            <v-text-field
+              type="password"
+              label="Contraseña"
+              placeholder="********"
+              variant="underlined"
+              v-model.trim="password"
+            ></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              type="submit"
+              variant="tonal"
+              block
+              :loading="userStore.loadingUser"
             >
-              <div>
-                <v-card-title class="text-h5"> Inicia sesión </v-card-title>
-                <v-card-subtitle class="white-space-unset">
-                  Accede al panel desde el que podrás administrar el contenido
-                  de la página
-                </v-card-subtitle>
-              </div>
-              <v-card-text>
-                <v-text-field
-                  type="email"
-                  label="Email"
-                  placeholder="Ingrese email"
-                  variant="underlined"
-                  v-model.trim="email"
-                ></v-text-field>
-                <v-text-field
-                  type="password"
-                  label="Contraseña"
-                  placeholder="********"
-                  variant="underlined"
-                  v-model.trim="password"
-                ></v-text-field>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn
-                  type="submit"
-                  variant="tonal"
-                  block
-                  :loading="userStore.loadingUser"
-                >
-                  Acceder
-                </v-btn>
-              </v-card-actions>
-            </v-form>
-          </v-col>
-        </v-row>
+              Acceder
+            </v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-col>
   </v-row>
