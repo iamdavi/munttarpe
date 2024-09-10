@@ -89,8 +89,14 @@
 
 <script setup>
 import { ref } from "vue";
+import { useDatabaseStore } from "@/stores/database";
+
 const createTeamDialog = ref(false);
 const radios = ref("Masculino");
+const databaseStore = useDatabaseStore();
+
+databaseStore.getEquipos();
+
 function createTeam() {
   createTeamDialog.value = true;
 }
