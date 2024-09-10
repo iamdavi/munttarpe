@@ -45,10 +45,53 @@
       </v-empty-state>
     </v-col>
   </v-row>
+  <v-dialog v-model="createTeamDialog" width="auto" min-width="500" persistent>
+    <v-card
+      prepend-icon="mdi-account-multiple-plus-outline"
+      title="Crear nuevo equipo"
+    >
+      <v-card-text>
+        <v-text-field label="Nombre" variant="underlined"></v-text-field>
+        <p>Tipo de equipo</p>
+        <v-radio-group inline v-model="radios" class="text-center">
+          <v-radio value="Masculino" color="green-darken-1">
+            <template v-slot:label>
+              <div class="pe-3">
+                <v-icon icon="mdi-gender-male"></v-icon>
+                Masculino
+              </div>
+            </template>
+          </v-radio>
+          <v-radio value="Femenino" color="deep-purple-darken-1">
+            <template v-slot:label>
+              <div class="pe-3">
+                <v-icon icon="mdi-gender-female"></v-icon>
+                Femenino
+              </div>
+            </template>
+          </v-radio>
+        </v-radio-group>
+      </v-card-text>
+      <template v-slot:actions>
+        <v-btn @click="createTeamDialog = false"> Cancelar </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="createTeamDialog = false"
+          variant="outlined"
+          color="green-darken-1"
+        >
+          Guardar
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
+import { ref } from "vue";
+const createTeamDialog = ref(false);
+const radios = ref("Masculino");
 function createTeam() {
-  alert("crear equipo");
+  createTeamDialog.value = true;
 }
 </script>
