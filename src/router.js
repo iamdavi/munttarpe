@@ -7,27 +7,27 @@ import Register from "./views/Register.vue";
 import Equipo from "./views/Equipo.vue";
 
 const requireAuth = async (to, from, next) => {
-    const userStore = useUserStore();
-    userStore.loadingSession = true;
-    const user = await userStore.currentUser();
-    if (user) {
-        next();
-    } else {
-        next("/login");
-    }
-    userStore.loadingSession = false;
+  const userStore = useUserStore();
+  userStore.loadingSession = true;
+  const user = await userStore.currentUser();
+  if (user) {
+    next();
+  } else {
+    next("/login");
+  }
+  userStore.loadingSession = false;
 };
 
 const routes = [
-    { path: "/", component: Home, beforeEnter: requireAuth },
-    { path: "/equipos", component: Equipo, beforeEnter: requireAuth },
-    { path: "/login", component: Login },
-    { path: "/register", component: Register },
+  { path: "/", component: Home },
+  { path: "/equipos", component: Equipo, beforeEnter: requireAuth },
+  { path: "/login", component: Login },
+  { path: "/register", component: Register },
 ];
 
 const router = createRouter({
-    routes,
-    history: createWebHistory(),
+  routes,
+  history: createWebHistory(),
 });
 
 export default router;
