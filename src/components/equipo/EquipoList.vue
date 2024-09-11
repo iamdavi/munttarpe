@@ -1,11 +1,62 @@
 <template>
-	<v-expansion-panels>
-		<v-expansion-panel v-for="equipo in databaseStore.equipos" :key="equipo.id" :text="equipo.tipo"
-			:title="equipo.nombre"></v-expansion-panel>
-	</v-expansion-panels>
+  <v-expansion-panels>
+    <v-expansion-panel
+      v-for="equipo in databaseStore.equipos"
+      :key="equipo.id"
+      class="pa-0"
+    >
+      <v-expansion-panel-title class="py-1 ps-2">
+        <v-avatar color="transparent border-0">
+          <v-icon>
+            <HomeIcon />
+          </v-icon>
+        </v-avatar>
+        {{ equipo.nombre }}
+      </v-expansion-panel-title>
+      <v-expansion-panel-text>
+        <div class="d-flex justify-space-between">
+          <v-btn
+            @click="databaseStore.eliminarEquipo(equipo.id)"
+            :loading="databaseStore.loadingDeleteDoc"
+            prepend-icon="mdi-trash-can-outline"
+            color="red"
+            variant="outlined"
+          >
+            Eliminar
+          </v-btn>
+          <v-btn
+            @click="openDialog(equipo)"
+            prepend-icon="mdi-pencil-outline"
+            color="primary"
+            variant="outlined"
+          >
+            Editar
+          </v-btn>
+        </div>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+    <EquipoFormModal
+      :isOpen="isDialogOpen"
+      actionType="editar"
+      :equipo="equipo"
+      @closeDialog="isDialogOpen = false"
+    />
+  </v-expansion-panels>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useDatabaseStore } from "@/stores/database";
+import HomeIcon from "@/components/icons/HomeIcon.vue";
+import EquipoFormModal from "@/components/equipo/EquipoFormModal.vue";
+
 const databaseStore = useDatabaseStore();
+
+const isDialogOpen = ref(false);
+const equipo = ref(null);
+
+const openDialog = (equipoData) => {
+  equipo.value = equipoData;
+  isDialogOpen.value = true;
+};
 </script>
