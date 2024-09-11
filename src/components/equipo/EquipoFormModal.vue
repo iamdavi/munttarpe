@@ -77,6 +77,7 @@ const rules = {
 };
 
 const clearFormFields = () => {
+  form.value.id = "";
   form.value.nombre = "";
   form.value.genero = "";
 };
@@ -86,6 +87,7 @@ watch(
   () => props.equipo,
   (newVal) => {
     if (newVal) {
+      form.value.id = newVal.id;
       form.value.nombre = newVal.nombre;
       form.value.genero = newVal.genero;
     } else {
@@ -110,13 +112,18 @@ const closeDialog = () => {
 
 // Función para guardar los datos
 const handleModalForm = () => {
-  if (props.actionType == "crear") {
-    databaseStore.createEquipo(form.value.nombre, form.value.genero);
-  } else {
-    // databaseStore.editarEquipo(form.value.id, form.value.nombre, form.value.genero);
+  try {
+    if (props.actionType == "crear") {
+      databaseStore.createEquipo(form.value.nombre, form.value.genero);
+    } else {
+      databaseStore.editarEquipo(form.value);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    clearFormFields();
+    closeDialog();
   }
-  clearFormFields();
-  closeDialog();
 };
 
 const dialogTitle = computed(() =>
