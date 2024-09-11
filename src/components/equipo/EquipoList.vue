@@ -29,7 +29,6 @@ import { ref } from "vue";
 import { useDatabaseStore } from "@/stores/database";
 import IconFemenino from "@/components/icons/MunttarpeLogorPlayeFemeninoSm.vue";
 import IconMasculino from "@/components/icons/MunttarpeLogorPlayeMasculinoSm.vue";
-import HomeIcon from "@/components/icons/HomeIcon.vue";
 import EquipoFormModal from "@/components/equipo/EquipoFormModal.vue";
 
 const databaseStore = useDatabaseStore();
