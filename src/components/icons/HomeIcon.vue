@@ -1,8 +1,9 @@
 <template>
   <!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
   <svg
-    :class="activeClass"
-    width="400px"
+    class="mxw-400 munttarpe-full-logo"
+    :class="[activeClass, type]"
+    width="100%"
     height="100%"
     viewBox="0 0 897 909"
     version="1.1"
@@ -17,7 +18,7 @@
       stroke-miterlimit: 10;
     "
   >
-    <g id="Capa-2">
+    <g>
       <path
         d="M131.433,526.005c114.2,-269.379 2.692,-366.226 2.692,-366.226l74.325,-76.146c69.442,91.203 182.063,58.391 195.029,49.531c12.971,-8.86 14.188,-34.634 14.188,-34.634l33.229,-2.819l33.021,2.819c-0,0 -0.796,29.865 14.096,34.634c85.225,27.287 135.7,5.434 190.891,-44.702l73.863,80.765c-0,-0 -114.167,100.37 5.596,356.778"
         style="
@@ -60,6 +61,7 @@
       ></path>
       <g
         :class="activeClass == 'active' ? 'fade-in-text' : 'd-none'"
+        v-if="type == 'full'"
         transform="matrix(4.16667,0,0,4.16667,-433.679,-222.595)"
       >
         <g
@@ -280,6 +282,7 @@
           stroke-width: 8.33px;
         "
         class="svg-elem-5"
+        v-if="type == 'full'"
       ></path>
     </g>
   </svg>
@@ -288,6 +291,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 const activeClass = ref("");
+
+const props = defineProps({
+  iconType: String,
+});
+
+const type = ref(props.iconType);
 
 onMounted(() => {
   setInterval(function () {
