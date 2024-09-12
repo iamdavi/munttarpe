@@ -104,9 +104,9 @@ const items = ref([
     icon: "mdi-handball",
   },
   {
-    title: "Jornadas",
-    value: "jornadas",
-    link: "/jornadas",
+    title: "Calendario",
+    value: "calendario",
+    link: "/calendario",
     icon: "mdi-calendar-multiselect",
   },
   {
