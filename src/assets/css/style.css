@@ -247,3 +247,27 @@
     right: 10px;
     top: 10px;
 }
+
+/* Estilos para los eventos del 'CALENDARIO' */
+
+.event-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 4px;
+    width: 100%;
+}
+
+.event-dot {
+    border-radius: 100%;
+    margin: auto;
+    height: 8px;
+    width: 8px;
+    margin: 1px;
+}
+
+.v-picker__day {
+    position: relative;
+}

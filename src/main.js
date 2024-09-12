@@ -9,6 +9,12 @@ import "@mdi/font/css/materialdesignicons.css";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
+// Locale
+import { es } from 'vuetify/locale'
+import moment from 'moment';
+import 'moment/locale/es';
+moment.locale('es');
+
 // Custom css
 import "./assets/css/style.css";
 
@@ -16,6 +22,10 @@ import App from "./App.vue";
 import router from "./router";
 
 const vuetify = createVuetify({
+  locale: {
+    locale: 'es',
+    messages: { es },
+  },
   components,
   directives,
   theme: {
