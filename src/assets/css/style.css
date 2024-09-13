@@ -67,6 +67,15 @@
     stroke-dashoffset: 0;
 }
 
+.munttarpe-full-logo.player {
+    position: relative;
+    z-index: 10;
+}
+
+.munttarpe-full-logo.active.player .svg-elem-4 {
+    fill: #000000cc !important;
+}
+
 .munttarpe-full-logo.active.player .svg-elem-2,
 .munttarpe-full-logo.active.player .svg-elem-3 {
     opacity: 0.3;
@@ -224,6 +233,7 @@
     bottom: 29%;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
 }
 
 .player-logo-container .player-logo-number {
@@ -238,7 +248,7 @@
 .player-logo-container .player-logo-image {
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 26%;
     transform: translateX(-50%);
 }
 

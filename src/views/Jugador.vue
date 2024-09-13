@@ -39,11 +39,13 @@
             <HomeIcon iconType="player" />
             <span class="player-logo-name">{{ jugador.mote }}</span>
             <span class="player-logo-number">{{ jugador.dorsal }}</span>
-            <!--
             <span class="player-logo-image">
-              <v-img src="../../public/player_2.png" width="150"></v-img>
+              <v-img
+                src="../../public/player_2.png"
+                width="131"
+                height="auto"
+              ></v-img>
             </span>
--->
           </div>
           <v-card-item>
             <div>
@@ -54,29 +56,19 @@
                 {{ jugador.descripcion }}
               </div>
             </div>
-            <v-table density="compact" class="rounded-lg mt-5 border-thin">
-              <tbody>
-                <tr>
-                  <td>
-                    <strong> Genero </strong>
-                  </td>
-                  <td>{{ jugador.genero }}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong> Mano </strong>
-                  </td>
-                  <td>{{ jugador.mano }}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong> Especialidad </strong>
-                  </td>
-                  <td>{{ jugador.especialidad }}</td>
-                </tr>
-              </tbody>
-            </v-table>
           </v-card-item>
+          <!-- CARACTERÍSTICAS -->
+          <v-divider></v-divider>
+          <div class="d-flex justify-space-between px-4 py-2">
+            <span>Mano</span>
+            <strong>{{ jugador.mano }}</strong>
+          </div>
+          <v-divider></v-divider>
+          <div class="d-flex justify-space-between px-4 py-2">
+            <span>Especialidad</span>
+            <strong>{{ jugador.especialidad }}</strong>
+          </div>
+          <!-- /CARACTERÍSTICAS -->
 
           <v-card-actions>
             <v-btn variant="tonal" prepend-icon="mdi-pencil-outline" block>
