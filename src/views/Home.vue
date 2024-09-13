@@ -11,12 +11,7 @@
       </h3>
     </v-col>
   </v-row>
-  <!--
-  <div>
-    <h1>Home</h1>
-    <p>{{ userStore.userData?.email }}</p>
-  </div>
---></template>
+</template>
 
 <script setup>
 import { useUserStore } from "../stores/user";

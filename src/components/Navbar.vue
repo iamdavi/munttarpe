@@ -21,12 +21,35 @@
     <!-- TITLE -->
     <v-app-bar-title to="/"> Munttarpe </v-app-bar-title>
     <!-- /TITLE -->
-    <v-select
-      :max-width="75"
+    <!--
+      <v-select
+      icon="mdi-translate"
+      :max-width="125"
       v-model="current"
       :items="langs"
       variant="underlined"
-    ></v-select>
+    ></v-select> -->
+    <v-menu location="bottom end">
+      <template v-slot:activator="{ props }">
+        <v-btn icon="mdi-translate" v-bind="props"></v-btn>
+      </template>
+
+      <v-list density="compact" nav>
+        <v-list-subheader class="font-weight-black">IDIOMAS</v-list-subheader>
+        <v-list-item
+          v-for="item in langs"
+          :key="item.value"
+          :value="item"
+          color="primary"
+          :active="item.value == current"
+          class="py-0"
+          @click="changeLang(item.value)"
+        >
+          <v-list-item-title v-text="item.title"></v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-btn
       :icon="
         theme.global.current.value.dark
@@ -124,8 +147,8 @@ const items = ref([
 
 const { current } = useLocale();
 const langs = [
-  { title: "Es", value: "es" },
-  { title: "Eu", value: "eu" },
+  { title: "Español", value: "es" },
+  { title: "Euskera", value: "eu" },
 ];
 
 watch(group, () => {
@@ -140,7 +163,11 @@ onBeforeMount(() => {
   window.addEventListener("scroll", onScrollTrans);
 });
 
-function changeTheme() {
+const changeLang = (newVal) => {
+  current.value = newVal;
+};
+
+const changeTheme = () => {
   theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
-}
+};
 </script>
