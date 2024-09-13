@@ -5,7 +5,7 @@
     </v-col>
     <v-col md="6" sm="12" cols="12">
       <h3 class="text-center text-md-start text-h3 font-weight-black">
-        Más que
+        {{ $t("hello") }}
         <br />
         <span class="text-green-munttarpe changingtext"></span>
       </h3>

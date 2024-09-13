@@ -1,12 +1,9 @@
 // Locale
 import { createI18n } from 'vue-i18n'
-import { es } from '../translations/es'
-import { eu } from '../translations/eu'
-import moment from 'moment';
-import 'moment/locale/es';
-moment.locale('es');
+import esLang from '../translations/es'
+import euLang from '../translations/eu'
 
-const messages = { es, eu }
+const messages = { es: esLang, eu: euLang }
 
 export const i18n = createI18n({
     legacy: false, // Vuetify does not support the legacy mode of vue-i18n

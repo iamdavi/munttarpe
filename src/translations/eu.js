@@ -1,3 +1,6 @@
-export const eu = {
-    hello: 'Hola mundo EU'
-}
+import { es } from 'vuetify/locale'
+
+export default {
+    $vuetify: { ...es },
+    hello: "Más que (EU)",
+};
