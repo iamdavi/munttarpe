@@ -2,10 +2,14 @@
   <v-card
     class="player-card"
     :color="
-      jugador.genero == 'femenino' ? 'deep-purple-darken-1' : 'green-darken-1'
+      jugador.tipo == 'entrenador'
+        ? 'secondary'
+        : jugador.genero == 'femenino'
+        ? 'deep-purple-darken-1'
+        : 'green-darken-1'
     "
     width="300"
-    :variant="jugador.tipo == 'Entrenador' ? 'outlined' : 'tonal'"
+    :variant="jugador.tipo == 'entrenador' ? 'outlined' : 'tonal'"
   >
     <v-chip
       v-if="jugador.posicion"
@@ -64,8 +68,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
+
+const cardVariant = ref("");
+const cardColor = ref("");
 
 const props = defineProps({
   jugador: Object,

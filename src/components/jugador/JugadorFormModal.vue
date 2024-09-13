@@ -100,7 +100,9 @@
                 prepend-icon="mdi-eye"
                 class="h-100"
               >
-                <v-card-text class="d-flex justify-center align-center h-75">
+                <v-card-text
+                  class="d-flex justify-center align-center h-75 pt-5"
+                >
                   <JugadorCard :jugador="form" />
                 </v-card-text>
               </v-card>
