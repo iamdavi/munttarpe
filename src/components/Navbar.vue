@@ -21,7 +21,12 @@
     <!-- TITLE -->
     <v-app-bar-title to="/"> Munttarpe </v-app-bar-title>
     <!-- /TITLE -->
-
+    <v-select
+      :max-width="75"
+      v-model="current"
+      :items="langs"
+      variant="underlined"
+    ></v-select>
     <v-btn
       :icon="
         theme.global.current.value.dark
@@ -75,7 +80,7 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
 import { useUserStore } from "@/stores/user";
-import { useTheme } from "vuetify";
+import { useTheme, useLocale } from "vuetify";
 import logo from "@/assets/munttarpe_logo.svg";
 
 const userStore = useUserStore();
@@ -116,6 +121,12 @@ const items = ref([
     icon: "mdi-newspaper",
   },
 ]);
+
+const { current } = useLocale();
+const langs = [
+  { title: "Es", value: "es" },
+  { title: "Eu", value: "eu" },
+];
 
 watch(group, () => {
   drawer.value = false;
