@@ -11,6 +11,7 @@
           color="green-darken-1"
           prepend-icon="mdi-plus"
           variant="outlined"
+          @click="isDialogOpen = true"
         >
           Crear
         </v-btn>
@@ -20,83 +21,70 @@
 
   <v-row>
     <v-col class="d-flex ga-8 overflow-x-auto pb-6">
-      <div v-for="n in 15" :key="n">
-        <v-card
-          class="player-card"
-          color="green-darken-1"
-          :variant="n == 1 ? 'outlined' : 'tonal'"
-          width="300"
-        >
-          <v-chip
-            class="payer-logo-position"
-            label
-            size="small"
-            variant="outlined"
-          >
-            {{ jugador.posicion }}
-          </v-chip>
-          <div class="px-8 pt-8 player-logo-container">
-            <HomeIcon iconType="player" />
-            <span class="player-logo-name">{{ jugador.mote }}</span>
-            <span class="player-logo-number">{{ jugador.dorsal }}</span>
-            <span class="player-logo-image">
-              <v-img
-                src="../../public/player_2.png"
-                width="131"
-                height="auto"
-              ></v-img>
-            </span>
-          </div>
-          <v-card-item>
-            <div>
-              <div class="text-button mb-1">
-                {{ jugador.nombre }} {{ jugador.apellidos }}
-              </div>
-              <div class="text-caption">
-                {{ jugador.descripcion }}
-              </div>
+      <div v-if="databaseStore.loadingDoc" v-for="n in 3">
+        <v-skeleton-loader
+          :key="n"
+          width="300px"
+          type="card,article,actions"
+        ></v-skeleton-loader>
+      </div>
+      <div class="w-100" v-else>
+        <v-empty-state v-if="databaseStore.equipos.length == 0">
+          <template v-slot:title>
+            <div class="text-grey-lighten-2">
+              - No se han creado jugadores todavía -
             </div>
-          </v-card-item>
-          <!-- CARACTERÍSTICAS -->
-          <v-divider></v-divider>
-          <div class="d-flex justify-space-between px-4 py-2">
-            <span>Mano</span>
-            <strong>{{ jugador.mano }}</strong>
-          </div>
-          <v-divider></v-divider>
-          <div class="d-flex justify-space-between px-4 py-2">
-            <span>Especialidad</span>
-            <strong>{{ jugador.especialidad }}</strong>
-          </div>
-          <!-- /CARACTERÍSTICAS -->
-
-          <v-card-actions>
-            <v-btn variant="tonal" prepend-icon="mdi-pencil-outline" block>
-              Editar
+          </template>
+          <template v-slot:text>
+            <div class="text-grey-darken-1">
+              Crea jugadores y asocialos a los equipos que ya has creado para
+              conformar tu equipo.
+            </div>
+          </template>
+          <template v-slot:actions>
+            <v-btn
+              color="green-darken-1"
+              prepend-icon="mdi-plus"
+              variant="outlined"
+              @click="isDialogOpen = true"
+            >
+              Crear primer jugador
             </v-btn>
-          </v-card-actions>
-        </v-card>
+          </template>
+        </v-empty-state>
+        <div v-else v-for="jugador in databaseStore.jugadores" :key="n">
+          <JugadorCard :jugador="jugador" />
+        </div>
       </div>
     </v-col>
   </v-row>
+  <JugadorFormModal
+    :isOpen="isDialogOpen"
+    actionType="crear"
+    @closeDialog="isDialogOpen = false"
+  />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import HomeIcon from "@/components/icons/HomeIcon.vue";
+import { useDatabaseStore } from "@/stores/database";
+import JugadorCard from "@/components/jugador/JugadorCard.vue";
+import JugadorFormModal from "@/components/jugador/JugadorFormModal.vue";
 
-const model = ref(null);
+const databaseStore = useDatabaseStore();
+databaseStore.getJugadores();
 
-const jugador = {
-  tipo: "Jugador",
-  nombre: "David",
-  apellidos: "Otero Mato",
-  descripcion: "En un lugar de la mancha de cuyo nombre no quiero acordarme",
-  mote: "Gallego",
-  genero: "Masculino",
-  posicion: "Portero",
-  dorsal: 26,
-  mano: "Diestro",
-  especialidad: "Contra-ataques",
-};
+const isDialogOpen = ref(false);
+// const jugador = {
+//   tipo: "Jugador",
+//   nombre: "David",
+//   apellidos: "Otero Mato",
+//   descripcion: "En un lugar de la mancha de cuyo nombre no quiero acordarme",
+//   mote: "Gallego",
+//   genero: "Masculino",
+//   posicion: "Portero",
+//   dorsal: 26,
+//   mano: "Diestro",
+//   especialidad: "Contra-ataques",
+// };
 </script>

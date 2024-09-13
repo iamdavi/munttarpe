@@ -5,6 +5,7 @@ import { collection, query, getDocs, addDoc, doc, deleteDoc, getDoc, updateDoc }
 export const useDatabaseStore = defineStore("database", {
   state: () => ({
     equipos: [],
+    jugadores: [],
     loadingDoc: false,
     loadingDeleteDoc: false,
   }),
@@ -72,6 +73,8 @@ export const useDatabaseStore = defineStore("database", {
       } finally {
         this.loadingDeleteDoc = false
       }
+    },
+    async getJugadores() {
     }
   },
 });

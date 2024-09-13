@@ -1,5 +1,6 @@
 :root {
     --green-munttarpe: #03c03c;
+    --purple-munttarpe: #5e35b1;
 }
 
 .white-space-unset {
@@ -86,6 +87,10 @@
 .player-card:hover .munttarpe-full-logo.active.player .svg-elem-3 {
     /* stroke: rgb(3 192 60) !important; */
     opacity: 1;
+}
+
+.munttarpe-full-logo.active.femenino path {
+    stroke: var(--purple-munttarpe) !important;
 }
 
 /* .munttarpe-full-logo.player .svg-elem-4 {

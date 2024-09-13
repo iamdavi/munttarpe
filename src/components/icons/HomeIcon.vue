@@ -2,7 +2,7 @@
   <!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
   <svg
     class="mxw-400 munttarpe-full-logo"
-    :class="[activeClass, type]"
+    :class="[activeClass, type, gender]"
     width="100%"
     height="100%"
     viewBox="0 0 897 909"
@@ -289,14 +289,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 const activeClass = ref("");
 
 const props = defineProps({
   iconType: String,
+  genderType: String,
 });
 
 const type = ref(props.iconType);
+const gender = ref(props.genderType);
+
+watch(
+  () => props.genderType,
+  (newVal) => {
+    gender.value = newVal;
+  }
+);
 
 onMounted(() => {
   setInterval(function () {
