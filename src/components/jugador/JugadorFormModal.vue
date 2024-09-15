@@ -1,123 +1,88 @@
 <template>
   <v-dialog v-model="internalDialog" persistent>
     <v-form @submit.prevent="handleModalForm">
-      <v-card
-        :prepend-icon="
-          modalType == 'crear' ? 'mdi-handball' : 'mdi-pencil-outline'
-        "
-        :title="dialogTitle"
-      >
+      <v-card :prepend-icon="modalType == 'crear' ? 'mdi-handball' : 'mdi-pencil-outline'
+        " :title="dialogTitle">
         <template v-slot:append>
           <v-btn icon="mdi-close" variant="text" @click="closeDialog"></v-btn>
         </template>
-        <v-container fluid>
+        <v-container class="pt-0" fluid>
           <v-row>
-            <v-col>
+            <v-col class="pt-0">
               <v-card-text class="p-0">
-                <v-text-field
-                  label="Nombre"
-                  variant="underlined"
-                  v-model="form.nombre"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <v-text-field
-                  label="Apellidos"
-                  variant="underlined"
-                  v-model="form.apellidos"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <v-text-field
-                  label="Mote"
-                  hint="Mote del jugador o nombre de camiseta"
-                  variant="underlined"
-                  v-model="form.mote"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <v-text-field
-                  label="Descripcion"
-                  hint="Curiosidades o peculiaridades del jugador"
-                  :persistent-hint="true"
-                  variant="underlined"
-                  v-model="form.descripcion"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <v-select
-                  label="Tipo"
-                  :items="typeOptions"
-                  v-model="form.tipo"
-                  variant="underlined"
-                ></v-select>
-                <v-select
-                  label="Posicion"
-                  :items="positionOptions"
-                  v-model="form.posicion"
-                  variant="underlined"
-                ></v-select>
-                <v-select
-                  label="Mano"
-                  :items="manosOptions"
-                  v-model="form.mano"
-                  variant="underlined"
-                ></v-select>
-                <v-text-field
-                  label="Dorsal"
-                  type="number"
-                  variant="underlined"
-                  v-model="form.dorsal"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <v-text-field
-                  label="Especialidad"
-                  variant="underlined"
-                  v-model="form.especialidad"
-                  :rules="[rules.required]"
-                ></v-text-field>
-                <p>Género del jugador</p>
-                <v-radio-group inline v-model="form.genero" class="text-center">
-                  <v-radio value="masculino" color="green-darken-1">
-                    <template v-slot:label>
-                      <div class="pe-3">
-                        <v-icon icon="mdi-gender-male"></v-icon>
-                        Masculino
-                      </div>
-                    </template>
-                  </v-radio>
-                  <v-radio value="femenino" color="deep-purple-darken-1">
-                    <template v-slot:label>
-                      <div class="pe-3">
-                        <v-icon icon="mdi-gender-female"></v-icon>
-                        Femenino
-                      </div>
-                    </template>
-                  </v-radio>
-                </v-radio-group>
+                <v-row>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Nombre" variant="underlined" v-model="form.nombre"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Apellidos" variant="underlined" v-model="form.apellidos"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Mote" hint="Mote del jugador o nombre de camiseta" variant="underlined"
+                      v-model="form.mote" :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Descripcion" hint="Curiosidades o peculiaridades del jugador"
+                      :persistent-hint="true" variant="underlined" v-model="form.descripcion"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select label="Tipo" :items="typeOptions" v-model="form.tipo" variant="underlined"></v-select>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select label="Posicion" :items="positionOptions" v-model="form.posicion"
+                      variant="underlined"></v-select>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select label="Mano" :items="manosOptions" v-model="form.mano" variant="underlined"></v-select>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Dorsal" type="number" variant="underlined" v-model="form.dorsal"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field label="Especialidad" variant="underlined" v-model="form.especialidad"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <p>Género del jugador</p>
+                    <v-radio-group inline v-model="form.genero" class="text-center">
+                      <v-radio value="masculino" color="green-darken-1">
+                        <template v-slot:label>
+                          <div class="pe-3">
+                            <v-icon icon="mdi-gender-male"></v-icon>
+                            Masculino
+                          </div>
+                        </template>
+                      </v-radio>
+                      <v-radio value="femenino" color="deep-purple-darken-1">
+                        <template v-slot:label>
+                          <div class="pe-3">
+                            <v-icon icon="mdi-gender-female"></v-icon>
+                            Femenino
+                          </div>
+                        </template>
+                      </v-radio>
+                    </v-radio-group>
+                  </v-col>
+                </v-row>
               </v-card-text>
             </v-col>
-            <v-col>
-              <v-card
-                variant="text"
-                title="Previsualicación"
-                prepend-icon="mdi-eye"
-                class="h-100"
-              >
-                <v-card-text
-                  class="d-flex justify-center align-center h-75 pt-5"
-                >
+            <v-col class="pt-0 h-fit-content">
+              <v-card variant="text" title="Previsualicación" prepend-icon="mdi-eye" class="h-100">
+                <v-card-text class="d-flex align-center h-100">
                   <JugadorCard :jugador="form" />
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
-        <template v-slot:actions class="px-4">
-          <v-btn class="ms-5" @click="closeDialog"> Cancelar </v-btn>
+        <template v-slot:actions>
+          <v-btn class="ms-5 mb-2" @click="closeDialog"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            class="me-5"
-            type="submit"
-            variant="outlined"
-            color="green-darken-1"
-          >
+          <v-btn class="me-5 mb-2" type="submit" variant="outlined" color="green-darken-1">
             Guardar
           </v-btn>
         </template>

@@ -286,3 +286,7 @@
 .v-picker__day {
     position: relative;
 }
+
+.h-fit-content {
+    height: fit-content;
+}

@@ -1,23 +1,11 @@
 <template>
-  <v-card
-    class="player-card"
-    :color="
-      jugador.tipo == 'entrenador'
-        ? 'secondary'
-        : jugador.genero == 'femenino'
+  <v-card class="player-card mx-auto" :color="jugador.tipo == 'entrenador'
+      ? 'secondary'
+      : jugador.genero == 'femenino'
         ? 'deep-purple-darken-1'
         : 'green-darken-1'
-    "
-    width="300"
-    :variant="jugador.tipo == 'entrenador' ? 'outlined' : 'tonal'"
-  >
-    <v-chip
-      v-if="jugador.posicion"
-      class="payer-logo-position"
-      label
-      size="small"
-      variant="outlined"
-    >
+    " width="300" :variant="jugador.tipo == 'entrenador' ? 'outlined' : 'tonal'">
+    <v-chip v-if="jugador.posicion" class="payer-logo-position" label size="small" variant="outlined">
       {{ jugador.posicion }}
     </v-chip>
     <div class="px-8 pt-8 player-logo-container">
@@ -49,10 +37,7 @@
       <strong>{{ jugador.mano }}</strong>
     </div>
     <v-divider v-if="jugador.especialidad"></v-divider>
-    <div
-      v-if="jugador.especialidad"
-      class="d-flex justify-space-between px-4 py-2"
-    >
+    <div v-if="jugador.especialidad" class="d-flex justify-space-between px-4 py-2">
       <span>Especialidad</span>
       <strong>{{ jugador.especialidad }}</strong>
     </div>
