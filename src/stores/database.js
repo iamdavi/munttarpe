@@ -75,6 +75,39 @@ export const useDatabaseStore = defineStore("database", {
       }
     },
     async getJugadores() {
+      if (this.jugadores.length !== 0) return;
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "jugadores"));
+        const qs = await getDocs(q);
+        qs.forEach((d) => {
+          this.jugadores.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async createJugador(jugador) {
+      const newJugador = { ...jugador }
+      try {
+        const docRef = await addDoc(collection(db, 'jugadores'), newJugador)
+        this.jugadores.push({
+          id: docRef.id,
+          ...newJugador
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+
+      }
+    },
+    async editarJugador() {
+
     }
   },
 });

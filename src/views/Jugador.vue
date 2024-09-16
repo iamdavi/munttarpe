@@ -28,33 +28,31 @@
           type="card,article,actions"
         ></v-skeleton-loader>
       </div>
-      <div class="w-100" v-else>
-        <v-empty-state v-if="databaseStore.equipos.length == 0">
-          <template v-slot:title>
-            <div class="text-grey-lighten-2">
-              - No se han creado jugadores todavía -
-            </div>
-          </template>
-          <template v-slot:text>
-            <div class="text-grey-darken-1">
-              Crea jugadores y asocialos a los equipos que ya has creado para
-              conformar tu equipo.
-            </div>
-          </template>
-          <template v-slot:actions>
-            <v-btn
-              color="green-darken-1"
-              prepend-icon="mdi-plus"
-              variant="outlined"
-              @click="isDialogOpen = true"
-            >
-              Crear primer jugador
-            </v-btn>
-          </template>
-        </v-empty-state>
-        <div v-else v-for="jugador in databaseStore.jugadores" :key="n">
-          <JugadorCard :jugador="jugador" />
-        </div>
+      <v-empty-state v-if="databaseStore.jugadores.length == 0">
+        <template v-slot:title>
+          <div class="text-grey-lighten-2">
+            - No se han creado jugadores todavía -
+          </div>
+        </template>
+        <template v-slot:text>
+          <div class="text-grey-darken-1">
+            Crea jugadores y asocialos a los equipos que ya has creado para
+            conformar tu equipo.
+          </div>
+        </template>
+        <template v-slot:actions>
+          <v-btn
+            color="green-darken-1"
+            prepend-icon="mdi-plus"
+            variant="outlined"
+            @click="isDialogOpen = true"
+          >
+            Crear primer jugador
+          </v-btn>
+        </template>
+      </v-empty-state>
+      <div v-else v-for="jugador in databaseStore.jugadores" :key="jugador.id">
+        <JugadorCard :jugador="jugador" />
       </div>
     </v-col>
   </v-row>
