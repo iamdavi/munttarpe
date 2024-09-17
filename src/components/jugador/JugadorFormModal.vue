@@ -17,7 +17,7 @@
                 <v-row>
                   <v-col cols="12" md="6">
                     <v-text-field
-                      label="Nombre"
+                      label="Nombre *"
                       variant="underlined"
                       v-model="form.nombre"
                       :rules="[rules.required]"
@@ -25,7 +25,7 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                      label="Apellidos"
+                      label="Apellidos *"
                       variant="underlined"
                       v-model="form.apellidos"
                       :rules="[rules.required]"
@@ -33,12 +33,32 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                      label="Mote"
+                      label="Mote *"
                       hint="Mote del jugador o nombre de camiseta"
                       variant="underlined"
                       v-model="form.mote"
                       :rules="[rules.required]"
                     ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-file-input
+                      prepend-icon="mdi-image"
+                      variant="underlined"
+                      accept="image/*"
+                      label="Imagen del jugador"
+                      v-model="form.image"
+                      @click:clear="form.imageUrl = ''"
+                      @change="getImageSrc"
+                    ></v-file-input>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select
+                      label="Tipo"
+                      :items="typeOptions"
+                      v-model="form.tipo"
+                      variant="underlined"
+                      @update:modelValue="tipoChange"
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
@@ -49,15 +69,7 @@
                       v-model="form.descripcion"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="6">
-                    <v-select
-                      label="Tipo"
-                      :items="typeOptions"
-                      v-model="form.tipo"
-                      variant="underlined"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" :class="{ 'd-none': isNotJugador }">
                     <v-select
                       label="Posicion"
                       :items="positionOptions"
@@ -65,7 +77,7 @@
                       variant="underlined"
                     ></v-select>
                   </v-col>
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" :class="{ 'd-none': isNotJugador }">
                     <v-select
                       label="Mano"
                       :items="manosOptions"
@@ -73,7 +85,7 @@
                       variant="underlined"
                     ></v-select>
                   </v-col>
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" :class="{ 'd-none': isNotJugador }">
                     <v-text-field
                       label="Dorsal"
                       type="number"
@@ -89,7 +101,7 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <p>Género del jugador</p>
+                    <p>Género del jugador/entrenador</p>
                     <v-radio-group
                       inline
                       v-model="form.genero"
@@ -183,7 +195,13 @@ const form = ref({
   dorsal: null,
   mano: null,
   especialidad: "",
+  image: null,
 });
+
+const isNotJugador = ref(true);
+const tipoChange = (e, c) => {
+  isNotJugador.value = form.value.tipo !== "jugador";
+};
 
 const rules = {
   required: (value) => !!value || "Este campo es requerido",
@@ -217,6 +235,18 @@ watch(
     internalDialog.value = newVal;
   }
 );
+
+const getImageSrc = () => {
+  if (form.value.image) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      form.value.imageUrl = e.target.result;
+    };
+    reader.readAsDataURL(form.value.image);
+  } else {
+    form.value.imageUrl = "";
+  }
+};
 
 // Función para cerrar el diálogo
 const closeDialog = () => {

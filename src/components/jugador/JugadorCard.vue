@@ -24,13 +24,9 @@
       <HomeIcon iconType="player" :genderType="jugador.genero" />
       <span class="player-logo-name">{{ jugador.mote }}</span>
       <span class="player-logo-number">{{ jugador.dorsal }}</span>
-      <!-- <span class="player-logo-image">
-        <v-img
-          src="../../public/player_2.png"
-          width="131"
-          height="auto"
-        ></v-img>
-      </span> -->
+      <span class="player-logo-image">
+        <v-img :src="jugador.imageUrl" width="131" height="auto"></v-img>
+      </span>
     </div>
     <v-card-item>
       <div>
@@ -70,9 +66,6 @@
 <script setup>
 import { ref, watch } from "vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
-
-const cardVariant = ref("");
-const cardColor = ref("");
 
 const props = defineProps({
   jugador: Object,
