@@ -20,7 +20,6 @@
   <v-row>
     <v-col class="flex-grow-0 flex-shrink-0">
       <v-date-picker
-        :landscape="true"
         title="Calendario de entrenamientos y partidos"
         locale="es"
         v-model="selectedDate"

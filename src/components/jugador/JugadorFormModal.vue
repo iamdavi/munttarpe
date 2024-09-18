@@ -295,8 +295,6 @@ const handleModalForm = async (event) => {
     if (props.actionType == "crear") {
       databaseStore.createJugador(form.value);
     } else {
-      console.log("Llamada a editar jugador con ", form.value);
-
       databaseStore.editarJugador(form.value);
     }
   } catch (error) {
