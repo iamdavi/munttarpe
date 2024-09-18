@@ -94,6 +94,7 @@ export const useDatabaseStore = defineStore("database", {
     },
     async createJugador(jugador) {
       const newJugador = { ...jugador }
+      delete newJugador.id
       try {
         const docRef = await addDoc(collection(db, 'jugadores'), newJugador)
         this.jugadores.push({
@@ -106,8 +107,39 @@ export const useDatabaseStore = defineStore("database", {
 
       }
     },
-    async editarJugador() {
+    async editarJugador(jugador) {
+      const jugadorId = jugador.id
+      try {
+        const docRef = doc(db, 'jugadores', jugadorId)
+        const changedFields = {
+          ...jugador
+        }
+        delete changedFields.id
+        await updateDoc(docRef, changedFields)
+        this.jugadores = this.jugadores.map(item => {
+          if (item.id === jugadorId) {
+            return { ...item, ...changedFields }
+          }
+          return item
+        })
+        console.log(this.jugadores);
 
-    }
+      } catch (error) {
+        console.log(error)
+      } finally {
+      }
+    },
+    async eliminarJugador(id) {
+      this.loadingDeleteDoc = true
+      try {
+        const docRef = doc(db, 'jugadores', id)
+        await deleteDoc(docRef)
+        this.jugadores = this.jugadores.filter(item => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false
+      }
+    },
   },
 });

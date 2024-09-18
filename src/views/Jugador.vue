@@ -11,7 +11,11 @@
           color="green-darken-1"
           prepend-icon="mdi-plus"
           variant="outlined"
-          @click="isDialogOpen = true"
+          @click="
+            jugador = { tipo: null };
+            actionType = 'crear';
+            isDialogOpen = true;
+          "
         >
           Crear
         </v-btn>
@@ -28,7 +32,7 @@
           type="card,article,actions"
         ></v-skeleton-loader>
       </div>
-      <v-empty-state v-if="databaseStore.jugadores.length == 0">
+      <v-empty-state v-if="databaseStore.jugadores.length == 0" class="mx-auto">
         <template v-slot:title>
           <div class="text-grey-lighten-2">
             - No se han creado jugadores todavía -
@@ -52,13 +56,17 @@
         </template>
       </v-empty-state>
       <div v-else v-for="jugador in databaseStore.jugadores" :key="jugador.id">
-        <JugadorCard :jugador="jugador" />
+        <JugadorCard
+          :jugador="jugador"
+          @editJugadorData="changeJugadorData(jugador)"
+        />
       </div>
     </v-col>
   </v-row>
   <JugadorFormModal
     :isOpen="isDialogOpen"
-    actionType="crear"
+    :actionType="actionType"
+    :jugador="jugador"
     @closeDialog="isDialogOpen = false"
   />
 </template>
@@ -72,17 +80,13 @@ import JugadorFormModal from "@/components/jugador/JugadorFormModal.vue";
 const databaseStore = useDatabaseStore();
 databaseStore.getJugadores();
 
+const jugador = ref(null);
+const actionType = ref("crear");
 const isDialogOpen = ref(false);
-// const jugador = {
-//   tipo: "Jugador",
-//   nombre: "David",
-//   apellidos: "Otero Mato",
-//   descripcion: "En un lugar de la mancha de cuyo nombre no quiero acordarme",
-//   mote: "Gallego",
-//   genero: "Masculino",
-//   posicion: "Portero",
-//   dorsal: 26,
-//   mano: "Diestro",
-//   especialidad: "Contra-ataques",
-// };
+
+const changeJugadorData = (jugadorData) => {
+  jugador.value = jugadorData;
+  actionType.value = "editar";
+  isDialogOpen.value = true;
+};
 </script>

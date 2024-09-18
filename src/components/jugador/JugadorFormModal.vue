@@ -136,14 +136,27 @@
                 class="h-100"
               >
                 <v-card-text class="d-flex align-center">
-                  <JugadorCard :jugador="form" />
+                  <JugadorCard :jugador="form" :isPreview="true" />
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
         <template v-slot:actions>
-          <v-btn class="ms-5 mb-2" @click="closeDialog"> Cancelar </v-btn>
+          <v-btn
+            v-if="actionType == 'editar'"
+            class="ms-5 mb-2"
+            @click="
+              databaseStore.eliminarJugador(jugador.id);
+              closeDialog();
+            "
+            :loading="databaseStore.loadingDeleteDoc"
+            prepend-icon="mdi-trash-can-outline"
+            color="red"
+            variant="outlined"
+          >
+            Eliminar
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             class="me-5 mb-2"
@@ -175,7 +188,7 @@ const databaseStore = useDatabaseStore();
 const props = defineProps({
   isOpen: Boolean,
   actionType: String,
-  equipo: Object, // Prop para los datos del registro
+  jugador: Object, // Prop para los datos del registro
 });
 
 const emit = defineEmits(["closeDialog"]);
@@ -185,6 +198,7 @@ const loadingData = ref(false);
 const internalDialog = ref(props.isOpen);
 const modalType = ref(props.actionType);
 const form = ref({
+  id: null,
   tipo: null,
   nombre: "",
   apellidos: "",
@@ -208,19 +222,38 @@ const rules = {
 };
 
 const clearFormFields = () => {
-  form.value.id = "";
+  form.value.id = null;
+  form.value.tipo = null;
   form.value.nombre = "";
+  form.value.apellidos = "";
+  form.value.descripcion = "";
+  form.value.mote = "";
   form.value.genero = "";
+  form.value.posicion = null;
+  form.value.dorsal = null;
+  form.value.mano = null;
+  form.value.especialidad = "";
+  form.value.image = null;
+  isNotJugador.value = true;
 };
 
 // Sincronizar los datos del registro con el formulario
 watch(
-  () => props.equipo,
+  () => props.jugador,
   (newVal) => {
     if (newVal) {
       form.value.id = newVal.id;
+      form.value.tipo = newVal.tipo;
       form.value.nombre = newVal.nombre;
+      form.value.apellidos = newVal.apellidos;
+      form.value.descripcion = newVal.descripcion;
+      form.value.mote = newVal.mote;
       form.value.genero = newVal.genero;
+      form.value.posicion = newVal.posicion;
+      form.value.dorsal = newVal.dorsal;
+      form.value.mano = newVal.mano;
+      form.value.especialidad = newVal.especialidad;
+      form.value.image = newVal.image;
     } else {
       // Si no hay registro, limpiamos el formulario
       clearFormFields();
@@ -262,6 +295,8 @@ const handleModalForm = async (event) => {
     if (props.actionType == "crear") {
       databaseStore.createJugador(form.value);
     } else {
+      console.log("Llamada a editar jugador con ", form.value);
+
       databaseStore.editarJugador(form.value);
     }
   } catch (error) {

@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="player-card mx-auto h-100"
+    class="player-card mx-auto h-100 d-flex flex-column"
     :color="
       jugador.tipo == 'entrenador'
         ? 'secondary'
@@ -53,23 +53,27 @@
       <strong>{{ jugador.especialidad }}</strong>
     </div>
     <!-- /CARACTERÍSTICAS -->
-
-    <!-- 
-    <v-card-actions>
-      <v-btn variant="tonal" prepend-icon="mdi-pencil-outline" block>
+    <v-spacer></v-spacer>
+    <v-card-actions v-if="!isPreview">
+      <v-btn
+        variant="tonal"
+        prepend-icon="mdi-pencil-outline"
+        block
+        @click="editJugador"
+      >
         Editar
       </v-btn>
-    </v-card-actions> -->
+    </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
 
-const props = defineProps({
-  jugador: Object,
-});
+const props = defineProps({ jugador: Object, isPreview: Boolean });
+const emit = defineEmits(["editJugadorData"]);
 
-const jugador = ref(props.jugador);
+const editJugador = () => {
+  emit("editJugadorData");
+};
 </script>
