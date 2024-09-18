@@ -1,6 +1,12 @@
-import { es } from 'vuetify/locale'
+import { es } from "vuetify/locale";
 
 export default {
-    $vuetify: { ...es },
-    hello: "Más que (EU)",
+  $vuetify: {
+    ...es,
+    datePicker: {
+      title: "Calendario de eventos",
+      header: "Día",
+    },
+  },
+  hello: "Más que (EU)",
 };

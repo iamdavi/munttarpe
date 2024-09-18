@@ -14,9 +14,8 @@
   </v-row>
   <v-row>
     <v-col class="flex-grow-0 flex-shrink-0">
-      <v-date-picker :weekdays="[1, 2, 3, 4, 5, 6, 0]" first-day-of-week="1"
-        title="Calendario de entrenamientos y partidos" v-model="selectedDate" show-adjacent-months
-        ref="datePicker"></v-date-picker>
+      <v-date-picker :weekdays="[1, 2, 3, 4, 5, 6, 0]" first-day-of-week="1" location="es eu" v-model="selectedDate"
+        show-adjacent-months ref="datePicker"></v-date-picker>
     </v-col>
     <v-col class="flex-grow-1 flex-shrink-0">
       <h3>Todos los eventos</h3>
@@ -45,7 +44,6 @@ const updateEventMarkers = () => {
   // Usa un timeout para asegurar que el DOM esté renderizado
   nextTick(() => {
     const cells = datePicker.value.$el.querySelectorAll(".v-date-picker-month__day");
-    console.log(cells)
     cells.forEach((cell) => {
       const date = cell.getAttribute("data-v-date");
       const eventsToHandle = events.value.filter((event) => event.date === date);
