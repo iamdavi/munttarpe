@@ -31,9 +31,9 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick, useTemplateRef } from 'vue';
+import { ref, watch, onMounted, nextTick } from 'vue';
 
-const datePicker = useTemplateRef('datePicker')
+const datePicker = ref(null)
 const selectedDate = ref(null)
 const events = ref([
   { date: "2024-09-12", color: "#FF0000", type: "Entrenamiento", hora: "19:00", equipo: "Senior Masculino" },
@@ -44,16 +44,16 @@ const events = ref([
 const updateEventMarkers = () => {
   // Usa un timeout para asegurar que el DOM esté renderizado
   nextTick(() => {
-    const cells = datePicker.querySelectorAll(".v-date-picker-month__day");
-
+    const cells = datePicker.value.$el.querySelectorAll(".v-date-picker-month__day");
+    console.log(cells)
     cells.forEach((cell) => {
       const date = cell.getAttribute("data-v-date");
-      const events = events.value.filter((event) => event.date === date);
+      const eventsToHandle = events.value.filter((event) => event.date === date);
 
-      if (events.length) {
+      if (eventsToHandle.length) {
         const eventDots = document.createElement("div");
         eventDots.classList.add("event-dots");
-        events.forEach((event) => {
+        eventsToHandle.forEach((event) => {
           const dot = document.createElement("div");
           dot.classList.add("event-dot");
           dot.style.backgroundColor = event.color;
@@ -75,6 +75,5 @@ watch(
     updateEventMarkers()
   }
 );
-
 
 </script>
