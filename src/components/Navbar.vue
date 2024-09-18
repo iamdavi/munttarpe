@@ -2,20 +2,9 @@
   <v-app-bar :flat="!drawer" :color="isTransparent ? 'transparent' : undefined">
     <!-- ICON & TEXT -->
     <router-link to="/" v-if="!userStore.userData">
-      <v-img
-        class="mx-2"
-        to="/"
-        :src="logo"
-        height="30"
-        width="30"
-        contain
-      ></v-img>
+      <v-img class="mx-2" to="/" :src="logo" height="30" width="30" contain></v-img>
     </router-link>
-    <v-app-bar-nav-icon
-      v-else
-      variant="text"
-      @click="drawer = !drawer"
-    ></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-else variant="text" @click="drawer = !drawer"></v-app-bar-nav-icon>
     <!-- /ICON -->
 
     <!-- TITLE -->
@@ -36,39 +25,22 @@
 
       <v-list density="compact" nav>
         <v-list-subheader class="font-weight-black">IDIOMAS</v-list-subheader>
-        <v-list-item
-          v-for="item in langs"
-          :key="item.value"
-          :value="item"
-          color="primary"
-          :active="item.value == current"
-          class="py-0"
-          @click="changeLang(item.value)"
-        >
+        <v-list-item v-for="item in langs" :key="item.value" :value="item" color="primary"
+          :active="item.value == current" class="py-0" @click="changeLang(item.value)">
           <v-list-item-title v-text="item.title"></v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
 
-    <v-btn
-      :icon="
-        theme.global.current.value.dark
-          ? 'mdi-weather-night'
-          : 'mdi-weather-sunny'
-      "
-      @click="changeTheme"
-    ></v-btn>
+    <v-btn :icon="theme.global.current.value.dark
+        ? 'mdi-weather-night'
+        : 'mdi-weather-sunny'
+      " @click="changeTheme"></v-btn>
     <v-btn v-if="!userStore.userData" icon="mdi-login" to="/login"></v-btn>
     <v-btn v-else icon="mdi-logout" @click="userStore.logoutUser"></v-btn>
   </v-app-bar>
   <!-- LOGGED IN SECTIONS -->
-  <v-navigation-drawer
-    v-if="userStore.userData"
-    class="h-screen"
-    v-model="drawer"
-    temporary
-    :width="300"
-  >
+  <v-navigation-drawer v-if="userStore.userData" class="h-screen" v-model="drawer" temporary :width="300">
     <v-list>
       <v-list-item :title="userStore.userData.email">
         <template v-slot:prepend>
@@ -82,13 +54,7 @@
     <v-divider></v-divider>
 
     <v-list>
-      <v-list-item
-        v-for="(item, i) in items"
-        :key="i"
-        :value="item.value"
-        color="green-darken-1"
-        :to="item.link"
-      >
+      <v-list-item v-for="(item, i) in items" :key="i" :value="item.value" color="green-darken-1" :to="item.link">
         <template v-slot:prepend>
           <v-icon :icon="item.icon"></v-icon>
         </template>
@@ -132,9 +98,9 @@ const items = ref([
     icon: "mdi-handball",
   },
   {
-    title: "Calendario",
-    value: "calendario",
-    link: "/calendario",
+    title: "Eventos",
+    value: "Eventos",
+    link: "/eventos",
     icon: "mdi-calendar-multiselect",
   },
   {

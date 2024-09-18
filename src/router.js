@@ -25,7 +25,7 @@ const routes = [
   { path: "/", component: Home },
   { path: "/equipos", component: Equipo, beforeEnter: requireAuth },
   { path: "/jugadores", component: Jugador, beforeEnter: requireAuth },
-  { path: "/calendario", component: Calendario, beforeEnter: requireAuth },
+  { path: "/eventos", component: Calendario, beforeEnter: requireAuth },
   { path: "/noticias", component: Noticias, beforeEnter: requireAuth },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
