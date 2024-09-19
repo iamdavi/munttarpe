@@ -54,7 +54,7 @@
                   <v-col cols="12" md="6">
                     <v-select
                       label="Tipo"
-                      :items="typeOptions"
+                      :items="jugadorType"
                       v-model="form.tipo"
                       variant="underlined"
                       @update:modelValue="tipoChange"
@@ -72,7 +72,7 @@
                   <v-col cols="12" md="6" :class="{ 'd-none': isNotJugador }">
                     <v-select
                       label="Posicion"
-                      :items="positionOptions"
+                      :items="jugadorPositions"
                       v-model="form.posicion"
                       variant="underlined"
                     ></v-select>
@@ -80,7 +80,7 @@
                   <v-col cols="12" md="6" :class="{ 'd-none': isNotJugador }">
                     <v-select
                       label="Mano"
-                      :items="manosOptions"
+                      :items="jugadorManos"
                       v-model="form.mano"
                       variant="underlined"
                     ></v-select>
@@ -176,13 +176,8 @@
 <script setup>
 import { ref, watch, computed } from "vue";
 import { useDatabaseStore } from "@/stores/database";
-import { ModelJugador } from "@/model/jugadorModel";
 import JugadorCard from "@/components/jugador/JugadorCard.vue";
-
-const modelJugador = new ModelJugador();
-const positionOptions = modelJugador.getPositionOptions();
-const typeOptions = modelJugador.getTypeOptions();
-const manosOptions = modelJugador.getManosOptions();
+import { jugadorPositions, jugadorTypes, jugadorManos } from "@/constData/data";
 
 const databaseStore = useDatabaseStore();
 const props = defineProps({
