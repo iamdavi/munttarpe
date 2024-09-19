@@ -1,13 +1,8 @@
 <template>
-  <v-card
-    :prepend-icon="getPrependIcon()"
-    :variant="getCardVariant()"
-    :color="eventData.color"
-    :title="$t(eventData.tipo)"
-    :subtitle="eventData.eventTime + ' - ' + eventData.day"
-  >
+  <v-card :prepend-icon="getPrependIcon()" :variant="getCardVariant()" :color="eventData.color"
+    :title="$t(eventData.tipo)" :subtitle="eventData.eventTime + ' - ' + eventData.day">
     <template v-slot:append>
-      <v-btn density="compact" variant="text" icon="mdi-close"></v-btn>
+      <v-btn density="compact" variant="text" icon="mdi-close" @click="$emit('deleteEvent', eventData)"></v-btn>
     </template>
     <v-card-text>
       <v-chip-group>
@@ -43,3 +38,13 @@ const getCardVariant = () => {
   return "";
 };
 </script>
+
+<style scoped>
+.v-overlay__content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  padding: 12px !important;
+}
+</style>

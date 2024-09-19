@@ -165,7 +165,6 @@ export const useDatabaseStore = defineStore("database", {
     },
     async createEvent(data, eventType) {
       let payload = { ...data, eventType: eventType };
-      console.log(payload);
 
       if (eventType == 'day') {
         delete payload.weeksday
@@ -180,6 +179,18 @@ export const useDatabaseStore = defineStore("database", {
         console.log(error);
       } finally {
 
+      }
+    },
+    async deleteEvent(id) {
+      this.loadingDeleteDoc = true
+      try {
+        const docRef = doc(db, 'eventos', id)
+        await deleteDoc(docRef)
+        this.eventos = this.eventos.filter(item => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false
       }
     },
   },
