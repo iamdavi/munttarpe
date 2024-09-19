@@ -6,47 +6,109 @@
           <v-icon icon="mdi-calendar-multiselect" size="large"></v-icon>
           <h1>Eventos</h1>
         </div>
-        <v-btn class="float-right" color="green-darken-1" prepend-icon="mdi-plus" variant="outlined">
-          Crear
-        </v-btn>
       </div>
     </v-col>
   </v-row>
   <v-row>
     <v-col class="flex-grow-0 flex-shrink-0">
-      <v-date-picker :weekdays="[1, 2, 3, 4, 5, 6, 0]" first-day-of-week="1" location="es eu" v-model="selectedDate"
-        show-adjacent-months ref="datePicker"></v-date-picker>
+      <v-date-picker
+        :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+        first-day-of-week="1"
+        location="es eu"
+        v-model="selectedDate"
+        show-adjacent-months
+        ref="datePicker"
+        elevation="4"
+      ></v-date-picker>
+      <v-btn
+        color="green-darken-1"
+        prepend-icon="mdi-plus"
+        class="mt-3"
+        variant="outlined"
+        block
+        @click="
+          eventType = 'period';
+          isDialogOpen = true;
+        "
+      >
+        Crear evento periodico
+      </v-btn>
     </v-col>
     <v-col class="flex-grow-1 flex-shrink-0">
-      <h3>Todos los eventos</h3>
       <v-row>
-        <v-col lg="3" md="6" sm="12" v-for="(event, n) in events" :key="n">
-          <v-card prepend-icon="mdi-strategy" :variant="event.type == 'Partido' ? 'outlined' : 'tonal'"
-            :color="event.color" :title="event.type" :subtitle="event.equipo"></v-card>
+        <v-col cols="12" class="d-flex justify-space-between align-center">
+          <h3>Todos los eventos</h3>
+          <v-btn
+            variant="outlined"
+            prepend-icon="mdi-plus"
+            color="green-darken-1"
+            @click="
+              eventType = 'day';
+              isDialogOpen = true;
+            "
+          >
+            Crear evento para {{ formatedDate }}
+          </v-btn>
+        </v-col>
+        <v-col
+          lg="3"
+          md="6"
+          sm="12"
+          v-for="(event, n) in databaseStore.eventos"
+          :key="n"
+        >
+          <EventoCard
+            :evento="event"
+            :equipos="getEquipoDataById(event.equipos)"
+          />
         </v-col>
       </v-row>
     </v-col>
   </v-row>
+  <EventoFormModal
+    :isOpen="isDialogOpen"
+    actionType="crear"
+    :eventType="eventType"
+    :eventDay="formatedDate"
+    @closeDialog="isDialogOpen = false"
+  />
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick } from 'vue';
+import { ref, watch, onMounted, nextTick } from "vue";
+import { useDate } from "vuetify";
+import EventoFormModal from "@/components/evento/EventoFormModal.vue";
+import EventoCard from "@/components/evento/EventoCard.vue";
+import { useDatabaseStore } from "@/stores/database";
 
-const datePicker = ref(null)
-const selectedDate = ref(null)
-const events = ref([
-  { date: "2024-09-12", color: "#FF0000", type: "Entrenamiento", hora: "19:00", equipo: "Senior Masculino" },
-  { date: "2024-09-12", color: "#00FF00", type: "Entrenamiento", hora: "19:00", equipo: "Senior Masculino" },
-  { date: "2024-09-13", color: "#0000FF", type: "Entrenamiento", hora: "19:00", equipo: "Senior Masculino" },
-])
+const databaseStore = useDatabaseStore();
+databaseStore.getEvents();
+
+const date = useDate();
+const eventType = ref(null);
+const isDialogOpen = ref(false);
+const datePicker = ref(null);
+const selectedDate = ref(new Date());
+const formatedDate = ref(date.format(selectedDate, "keyboardDate"));
+
+const getEquipoDataById = (ids) => {
+  const teamsIds = Object.values(ids);
+  return databaseStore.equipos.filter((e) => {
+    return teamsIds.includes(e.id);
+  });
+};
 
 const updateEventMarkers = () => {
   // Usa un timeout para asegurar que el DOM esté renderizado
   nextTick(() => {
-    const cells = datePicker.value.$el.querySelectorAll(".v-date-picker-month__day");
+    const cells = datePicker.value.$el.querySelectorAll(
+      ".v-date-picker-month__day"
+    );
     cells.forEach((cell) => {
       const date = cell.getAttribute("data-v-date");
-      const eventsToHandle = events.value.filter((event) => event.date === date);
+      const eventsToHandle = databaseStore.eventos.filter(
+        (event) => event.date === date
+      );
 
       if (eventsToHandle.length) {
         const eventDots = document.createElement("div");
@@ -61,17 +123,15 @@ const updateEventMarkers = () => {
       }
     });
   });
-}
+};
 
 onMounted(() => {
-  updateEventMarkers()
+  updateEventMarkers();
+  databaseStore.getEquipos();
 });
 
-watch(
-  () => selectedDate,
-  (newVal) => {
-    updateEventMarkers()
-  }
-);
-
+watch(selectedDate, (newVal) => {
+  formatedDate.value = date.format(newVal, "keyboardDate");
+  updateEventMarkers();
+});
 </script>

@@ -6,10 +6,12 @@ export const useDatabaseStore = defineStore("database", {
   state: () => ({
     equipos: [],
     jugadores: [],
+    eventos: [],
     loadingDoc: false,
     loadingDeleteDoc: false,
   }),
   actions: {
+    // EQUIPOS
     async getEquipos() {
       if (this.equipos.length !== 0) return;
       this.loadingDoc = true;
@@ -74,6 +76,7 @@ export const useDatabaseStore = defineStore("database", {
         this.loadingDeleteDoc = false
       }
     },
+    // JUGADORES
     async getJugadores() {
       if (this.jugadores.length !== 0) return;
       this.loadingDoc = true;
@@ -139,6 +142,44 @@ export const useDatabaseStore = defineStore("database", {
         console.log(error)
       } finally {
         this.loadingDeleteDoc = false
+      }
+    },
+    // EVENTOS
+    async getEvents() {
+      if (this.eventos.length !== 0) return;
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "eventos"));
+        const qs = await getDocs(q);
+        qs.forEach((d) => {
+          this.eventos.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async createEvent(data, eventType) {
+      let payload = { ...data, eventType: eventType };
+      console.log(payload);
+
+      if (eventType == 'day') {
+        delete payload.weeksday
+      }
+      try {
+        const docRef = await addDoc(collection(db, 'eventos'), payload)
+        this.eventos.push({
+          id: docRef.id,
+          ...payload
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+
       }
     },
   },

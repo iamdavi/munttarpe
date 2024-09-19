@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="internalDialog" width="auto" :width="500">
+  <v-dialog v-model="props.isOpen" width="auto" :width="500">
     <v-form @submit.prevent="handleModalForm">
       <v-card
         :prepend-icon="
@@ -98,12 +98,12 @@ watch(
 );
 
 // Sincronizar el diálogo con el prop
-watch(
-  () => props.isOpen,
-  (newVal) => {
-    internalDialog.value = newVal;
-  }
-);
+// watch(
+//   () => props.isOpen,
+//   (newVal) => {
+//     internalDialog.value = newVal;
+//   }
+// );
 
 // Función para cerrar el diálogo
 const closeDialog = () => {
