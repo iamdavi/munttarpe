@@ -7,8 +7,11 @@
     >
       <v-expansion-panel-title class="py-1">
         <v-avatar color="transparent border-0 me-3" rounded="0" size="x-small">
+          <IconDinamic :color="equipo?.color" />
+          <!--
           <iconFemenino v-if="equipo.genero == 'Femenino'" />
           <IconMasculino v-else />
+        -->
         </v-avatar>
         {{ equipo.nombre }}
       </v-expansion-panel-title>
@@ -48,6 +51,7 @@ import { ref } from "vue";
 import { useDatabaseStore } from "@/stores/database";
 import IconFemenino from "@/components/icons/MunttarpeLogorPlayeFemeninoSm.vue";
 import IconMasculino from "@/components/icons/MunttarpeLogorPlayeMasculinoSm.vue";
+import IconDinamic from "@/components/icons/MunttarpeLogorDinamicSm.vue";
 import EquipoFormModal from "@/components/equipo/EquipoFormModal.vue";
 
 const databaseStore = useDatabaseStore();

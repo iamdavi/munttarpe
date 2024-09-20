@@ -20,7 +20,12 @@
             :rules="[rules.required]"
           ></v-text-field>
           <p>Género del equipo</p>
-          <v-radio-group inline v-model="form.genero" class="text-center">
+          <v-radio-group
+            inline
+            v-model="form.genero"
+            class="text-center"
+            @change="cambioGenero"
+          >
             <v-radio value="Masculino" color="green-darken-1">
               <template v-slot:label>
                 <div class="pe-3">
@@ -39,6 +44,14 @@
             </v-radio>
           </v-radio-group>
         </v-card-text>
+        <v-color-picker
+          v-model="form.color"
+          elevation="0"
+          class="mx-auto mb-3"
+          hide-inputs
+          show-swatches
+          swatches-max-height="250px"
+        ></v-color-picker>
         <template v-slot:actions>
           <v-btn @click="closeDialog"> Cancelar </v-btn>
           <v-spacer></v-spacer>
@@ -69,7 +82,8 @@ const internalDialog = ref(props.isOpen);
 const modalType = ref(props.actionType);
 const form = ref({
   nombre: "",
-  genero: "",
+  genero: "Masculino",
+  color: "#03c03c",
 });
 
 const rules = {
@@ -79,7 +93,8 @@ const rules = {
 const clearFormFields = () => {
   form.value.id = "";
   form.value.nombre = "";
-  form.value.genero = "";
+  form.value.genero = "Masculino";
+  form.value.color = "#03c03c";
 };
 
 // Sincronizar los datos del registro con el formulario
@@ -90,6 +105,7 @@ watch(
       form.value.id = newVal.id;
       form.value.nombre = newVal.nombre;
       form.value.genero = newVal.genero;
+      form.value.color = newVal.color;
     } else {
       // Si no hay registro, limpiamos el formulario
       clearFormFields();
@@ -114,7 +130,11 @@ const closeDialog = () => {
 const handleModalForm = () => {
   try {
     if (props.actionType == "crear") {
-      databaseStore.createEquipo(form.value.nombre, form.value.genero);
+      databaseStore.createEquipo(
+        form.value.nombre,
+        form.value.genero,
+        form.value.color
+      );
     } else {
       databaseStore.editarEquipo(form.value);
     }
@@ -123,6 +143,14 @@ const handleModalForm = () => {
   } finally {
     clearFormFields();
     closeDialog();
+  }
+};
+
+const cambioGenero = () => {
+  if (form.value.genero == "Masculino") {
+    form.value.color = "#03c03c";
+  } else {
+    form.value.color = "#5e35b1";
   }
 };
 

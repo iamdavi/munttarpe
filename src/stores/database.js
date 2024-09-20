@@ -30,9 +30,9 @@ export const useDatabaseStore = defineStore("database", {
         this.loadingDoc = false;
       }
     },
-    async createEquipo(nombre, genero) {
+    async createEquipo(nombre, genero, color) {
       try {
-        const newEquipo = { nombre: nombre, genero: genero }
+        const newEquipo = { nombre: nombre, genero: genero, color: color }
         const docRef = await addDoc(collection(db, 'equipos'), newEquipo)
         this.equipos.push({
           id: docRef.id,
@@ -51,6 +51,7 @@ export const useDatabaseStore = defineStore("database", {
         const changedFields = {
           nombre: equipo.nombre,
           genero: equipo.genero,
+          color: equipo.color,
         }
         await updateDoc(docRef, changedFields)
         this.equipos = this.equipos.map(item => {
