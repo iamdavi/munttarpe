@@ -10,10 +10,11 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-col class="flex-grow-0 flex-shrink-0">
+    <v-col cols="12" md="5" xl="4">
       <v-date-picker
         :weekdays="[1, 2, 3, 4, 5, 6, 0]"
         first-day-of-week="1"
+        width="auto"
         location="es eu"
         v-model="selectedDate"
         show-adjacent-months
@@ -22,7 +23,7 @@
       ></v-date-picker>
       <v-btn
         color="green-darken-1"
-        prepend-icon="mdi-plus"
+        prepend-icon="mdi-calendar-refresh"
         class="mt-3"
         variant="outlined"
         block
@@ -31,12 +32,18 @@
           isDialogOpen = true;
         "
       >
-        Crear evento periodico
+        Crear evento recurrente
       </v-btn>
+      <p class="text-caption text-grey">
+        P.e.: entrenamientos, eventos de todas las semanas...
+      </p>
     </v-col>
-    <v-col class="flex-grow-1 flex-shrink-0">
+    <v-col cols="12" md="7" xl="8">
       <v-row>
-        <v-col cols="12" class="d-flex justify-space-between align-center">
+        <v-col
+          cols="12"
+          class="d-flex flex-column flex-md-row justify-space-between align-center ga-3"
+        >
           <h3>Todos los eventos</h3>
           <v-btn
             variant="outlined"
@@ -47,13 +54,15 @@
               isDialogOpen = true;
             "
           >
-            Crear evento para {{ formatedDate }}
+            Evento para {{ formatedDate }}
           </v-btn>
         </v-col>
         <v-col
-          lg="3"
+          xl="4"
           md="6"
           sm="12"
+          cols="12"
+          class="position-relative"
           v-for="event in databaseStore.eventos"
           :key="event.id"
         >
@@ -69,11 +78,13 @@
   <v-dialog v-model="deleteEventDialog" max-width="500">
     <v-card title="Eliminar evento?" prepend-icon="mdi-calendar-remove-outline">
       <v-divider></v-divider>
-      <EventoCard
-        id="card-delete-preview"
-        :evento="eventToDelete"
-        :equipos="getEquipoDataById(eventToDelete?.equipos)"
-      />
+      <div class="position-relative card-delete-preview">
+        <EventoCard
+          :evento="eventToDelete"
+          :equipos="getEquipoDataById(eventToDelete?.equipos)"
+          :isPreview="true"
+        />
+      </div>
       <v-divider></v-divider>
       <v-card-actions class="d-flex justify-space-between">
         <v-btn
@@ -132,7 +143,6 @@ const deleteEventAction = () => {
   databaseStore.deleteEvent(eventToDelete.value.id);
   deleteEventDialog.value = false;
   eventToDelete.value = null;
-  console.log(databaseStore.eventos);
 };
 
 const getEquipoDataById = (ids) => {
@@ -182,7 +192,7 @@ watch(selectedDate, (newVal) => {
 </script>
 
 <style>
-#card-delete-preview {
+.card-delete-preview {
   scale: 0.8;
 }
 </style>

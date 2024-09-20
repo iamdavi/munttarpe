@@ -1,28 +1,93 @@
 <template>
-  <v-card :prepend-icon="getPrependIcon()" :variant="getCardVariant()" :color="eventData.color"
-    :title="$t(eventData.tipo)" :subtitle="eventData.eventTime + ' - ' + eventData.day">
-    <template v-slot:append>
-      <v-btn density="compact" variant="text" icon="mdi-close" @click="$emit('deleteEvent', eventData)"></v-btn>
+  <v-card
+    height="100%"
+    :prepend-icon="getPrependIcon()"
+    :variant="getCardVariant()"
+    :color="eventData.color"
+    :title="$t(eventData.tipo)"
+    :subtitle="getSubtitle()"
+    class="d-flex flex-column justify-space-between"
+  >
+    <template v-slot:append v-if="!props.isPreview">
+      <v-btn
+        density="compact"
+        variant="text"
+        icon="mdi-close"
+        @click="$emit('deleteEvent', eventData)"
+      ></v-btn>
     </template>
-    <v-card-text>
-      <v-chip-group>
-        <v-chip v-for="equipo in props.equipos" :key="equipo.id">
-          {{ equipo.nombre }}
-        </v-chip>
-      </v-chip-group>
-      <div v-if="!!eventData.descripcion">
-        <v-divider></v-divider>
-        <p class="mt-3">{{ eventData.descripcion }}</p>
-      </div>
+    <v-card-text class="pb-0 mt-n2">
+      <v-divider class="mb-2"></v-divider>
+      <v-chip
+        v-for="equipo in props.equipos"
+        :key="equipo.id"
+        :variant="getCardVariant()"
+        class="ma-1"
+      >
+        {{ equipo.nombre }}
+      </v-chip>
     </v-card-text>
+    <div>
+      <div v-if="!!eventData.descripcion">
+        <p class="px-4 py-2">{{ eventData.descripcion }}</p>
+      </div>
+      <v-divider></v-divider>
+      <v-card-actions v-if="!props.isPreview">
+        <v-btn block variant="outlined" prepend-icon="mdi-pencil-outline"
+          >Editar</v-btn
+        >
+      </v-card-actions>
+    </div>
   </v-card>
+  <v-tooltip
+    text="Evento recurrente"
+    location="top end"
+    v-if="props.evento?.eventType == 'period'"
+  >
+    <template v-slot:activator="{ props }">
+      <div v-bind="props" class="custom-badge-recursive-card elevation-5">
+        <v-icon icon="mdi-calendar-refresh-outline" size="x-small"></v-icon>
+      </div>
+    </template>
+  </v-tooltip>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { daysOfWeek } from "@/constData/data";
 
-const props = defineProps({ evento: Object, equipos: Array });
+const props = defineProps({
+  evento: Object,
+  equipos: Array,
+  isPreview: {
+    type: Boolean,
+    default: false,
+  },
+});
 const eventData = ref(props.evento);
+
+const emits = defineEmits(["deleteEvent"]);
+
+const getSubtitle = () => {
+  let result = eventData.value.eventTime ? eventData.value.eventTime : "??:??";
+  result += " - ";
+  if (eventData.value.eventType == "period") {
+    const daysNames = getNameOfDaysByArray(eventData.value.weeksDay);
+    result += daysNames.map((e) => e.slice(0, 2)).join(", ");
+  } else {
+    result += eventData.value.day;
+  }
+  return result;
+};
+
+const getNameOfDaysByArray = (days) => {
+  const names = [];
+  const daysSelectedValues = Object.values(days);
+  daysOfWeek.forEach((d) => {
+    if (daysSelectedValues.includes(d.value)) names.push(d.title);
+  });
+  return names;
+};
 
 const getPrependIcon = () => {
   if (eventData.value.tipo == "partido") return "mdi-tournament";
@@ -46,5 +111,14 @@ const getCardVariant = () => {
   width: 100%;
   flex-direction: column;
   padding: 12px !important;
+}
+
+.custom-badge-recursive-card {
+  background-color: #43a047;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-radius: 50%;
+  padding: 3px 7px;
 }
 </style>

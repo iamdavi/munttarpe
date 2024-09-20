@@ -2,10 +2,9 @@
   <v-dialog v-model="internalDialog" width="auto" persistent>
     <v-form @submit.prevent="handleModalForm">
       <v-card
-        :prepend-icon="
-          modalType == 'crear' ? 'mdi-calendar-plus' : 'mdi-calendar-edit'
-        "
-        :title="dialogTitle"
+        :prepend-icon="dialogIcon()"
+        title="Crear evento"
+        :subtitle="dialogSubtitle"
       >
         <template v-slot:append>
           <v-btn icon="mdi-close" variant="text" @click="closeDialog"></v-btn>
@@ -17,12 +16,14 @@
             :items="daysOfWeek"
             multiple
             v-model="form.weeksDay"
+            :rules="[(v) => !!v || 'Debes seleccionar un día']"
             variant="underlined"
           ></v-select>
           <v-select
             label="Tipo de evento *"
             :items="eventoTypes"
             v-model="form.tipo"
+            :rules="[(v) => !!v || 'Debes seleccionar el tipo de evento']"
             variant="underlined"
           ></v-select>
           <v-select
@@ -32,6 +33,7 @@
             item-title="nombre"
             multiple
             v-model="form.equipos"
+            :rules="[(v) => !!v || 'Debes seleccionar al menos 1 equipo']"
             variant="underlined"
           ></v-select>
           <v-text-field
@@ -46,8 +48,10 @@
             <v-dialog v-model="timeModal" activator="parent" width="auto">
               <v-card>
                 <v-time-picker
+                  class="px-1 py-3 pa-sm-4"
                   v-if="timeModal"
                   v-model="form.eventTime"
+                  width="auto"
                 ></v-time-picker>
                 <v-card-actions>
                   <v-btn block variant="outlined" @click="timeModal = false">
@@ -66,7 +70,12 @@
         <template v-slot:actions>
           <v-btn @click="closeDialog"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn type="submit" variant="outlined" color="green-darken-1">
+          <v-btn
+            type="submit"
+            variant="outlined"
+            color="green-darken-1"
+            :loading="loadingData"
+          >
             Guardar
           </v-btn>
         </template>
@@ -94,6 +103,7 @@ const props = defineProps({
 const emit = defineEmits(["closeDialog"]);
 
 // Estado local para el diálogo y formulario
+const loadingData = ref(false);
 const timeModal = ref(false);
 const internalDialog = ref(props.isOpen);
 const modalType = ref(props.actionType);
@@ -149,8 +159,11 @@ const closeDialog = () => {
 };
 
 // Función para guardar los datos
-const handleModalForm = () => {
+const handleModalForm = async () => {
+  loadingData.value = true;
+  const results = await event;
   try {
+    if (!results.valid) throw new Error("Formulario inválido");
     if (props.actionType == "crear") {
       if (props.eventType == "day") {
         form.value.day = props.eventDay;
@@ -162,19 +175,24 @@ const handleModalForm = () => {
   } catch (error) {
     console.log(error);
   } finally {
-    clearFormFields();
-    closeDialog();
+    loadingData.value = false;
+    if (results.valid) {
+      clearFormFields();
+      closeDialog();
+    }
   }
 };
 
-const dialogTitle = computed(() => {
-  if (props.actionType == "editar") return "Editar evento";
-  let title = "Crear evento ";
+const dialogIcon = () => {
+  if (props.eventType == "period") return "mdi-calendar-refresh";
+  if (props.eventType == "day") return "mdi-calendar-plus";
+};
+
+const dialogSubtitle = computed(() => {
   if (props.eventType == "day") {
-    title += "para el " + props.eventDay;
+    return "Para el día " + props.eventDay;
   } else {
-    title += "periodico";
+    return "Periódico";
   }
-  return title;
 });
 </script>
