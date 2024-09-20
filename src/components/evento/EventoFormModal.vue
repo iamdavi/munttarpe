@@ -26,16 +26,40 @@
             :rules="[(v) => !!v || 'Debes seleccionar el tipo de evento']"
             variant="underlined"
           ></v-select>
-          <v-select
-            label="Equipo *"
-            :items="databaseStore.equipos"
-            item-value="id"
-            item-title="nombre"
-            multiple
+          <v-autocomplete
+            max-width="500px"
             v-model="form.equipos"
+            :items="databaseStore.equipos"
+            color="blue-grey-lighten-2"
+            item-title="nombre"
+            item-value="id"
+            label="Equipo *"
+            chips
+            closable-chips
+            multiple
             :rules="[(v) => !!v || 'Debes seleccionar al menos 1 equipo']"
             variant="underlined"
-          ></v-select>
+          >
+            <template v-slot:chip="{ props, item }">
+              <v-chip v-bind="props" :text="item.raw.nombre">
+                <template v-slot:prepend>
+                  <div class="me-3" style="height: 18px; width: 18px">
+                    <IconDinamic :color="item.raw.color" />
+                  </div>
+                </template>
+              </v-chip>
+            </template>
+
+            <template v-slot:item="{ props, item }">
+              <v-list-item v-bind="props" :title="item.raw.nombre">
+                <template v-slot:prepend>
+                  <div class="me-3" style="height: 18px; width: 18px">
+                    <IconDinamic :color="item.raw.color" />
+                  </div>
+                </template>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
           <v-text-field
             v-model="form.eventTime"
             :active="timeModal"
@@ -89,6 +113,7 @@ import { ref, watch, computed } from "vue";
 import { eventoTypes } from "@/constData/data";
 import { useDatabaseStore } from "@/stores/database";
 import { daysOfWeek } from "@/constData/data";
+import IconDinamic from "@/components/icons/MunttarpeLogorDinamicSm.vue";
 
 const databaseStore = useDatabaseStore();
 
@@ -109,7 +134,7 @@ const internalDialog = ref(props.isOpen);
 const modalType = ref(props.actionType);
 const form = ref({
   tipo: null,
-  equipos: null,
+  equipos: [],
   eventTime: null,
   weeksDay: null,
   descripcion: null,
@@ -121,7 +146,7 @@ const rules = {
 
 const clearFormFields = () => {
   form.value.tipo = null;
-  form.value.equipos = null;
+  form.value.equipos = [];
   form.value.eventTime = null;
   form.value.weeksDay = null;
   form.value.descripcion = null;
