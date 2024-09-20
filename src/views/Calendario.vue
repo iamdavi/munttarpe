@@ -35,7 +35,7 @@
         Crear evento recurrente
       </v-btn>
       <p class="text-caption text-grey">
-        P.e.: entrenamientos, eventos de todas las semanas...
+        P.e.: entrenamientos, eventos semanales, recordatorios...
       </p>
     </v-col>
     <v-col cols="12" md="7" xl="8">

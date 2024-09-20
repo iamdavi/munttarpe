@@ -290,3 +290,8 @@
 .h-fit-content {
     height: fit-content;
 }
+
+.icon-dinamic-wrapper {
+    height: 18px;
+    width: 18px;
+}

@@ -1,6 +1,7 @@
 <template>
   <v-card
     height="100%"
+    elevation="3"
     :prepend-icon="getPrependIcon()"
     :variant="getCardVariant()"
     :color="eventData.color"
@@ -16,14 +17,17 @@
         @click="$emit('deleteEvent', eventData)"
       ></v-btn>
     </template>
-    <v-card-text class="pb-0 mt-n2">
-      <v-divider class="mb-2"></v-divider>
+    <v-card-text class="pb-0 mt-n2 px-1">
+      <v-divider></v-divider>
       <v-chip
         v-for="equipo in props.equipos"
         :key="equipo.id"
         :variant="getCardVariant()"
         class="ma-1"
       >
+        <div class="me-3 icon-dinamic-wrapper">
+          <IconDinamic :color="equipo.color" />
+        </div>
         {{ equipo.nombre }}
       </v-chip>
     </v-card-text>
@@ -55,6 +59,7 @@
 <script setup>
 import { ref } from "vue";
 import { daysOfWeek } from "@/constData/data";
+import IconDinamic from "@/components/icons/MunttarpeLogorDinamicSm.vue";
 
 const props = defineProps({
   evento: Object,
