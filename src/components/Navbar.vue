@@ -33,8 +33,8 @@
     </v-menu>
 
     <v-btn :icon="theme.global.current.value.dark
-        ? 'mdi-weather-night'
-        : 'mdi-weather-sunny'
+      ? 'mdi-weather-night'
+      : 'mdi-weather-sunny'
       " @click="changeTheme"></v-btn>
     <v-btn v-if="!userStore.userData" icon="mdi-login" to="/login"></v-btn>
     <v-btn v-else icon="mdi-logout" @click="userStore.logoutUser"></v-btn>
@@ -99,9 +99,15 @@ const items = ref([
   },
   {
     title: "Eventos",
-    value: "Eventos",
+    value: "eventos",
     link: "/eventos",
     icon: "mdi-calendar-multiselect",
+  },
+  {
+    title: "Multas",
+    value: "multas",
+    link: "/multas",
+    icon: "mdi-invoice-text-outline",
   },
   {
     title: "Noticias",

@@ -7,6 +7,7 @@ export const useDatabaseStore = defineStore("database", {
     equipos: [],
     jugadores: [],
     eventos: [],
+    multas: [],
     loadingDoc: false,
     loadingDeleteDoc: false,
   }),
@@ -188,6 +189,68 @@ export const useDatabaseStore = defineStore("database", {
         const docRef = doc(db, 'eventos', id)
         await deleteDoc(docRef)
         this.eventos = this.eventos.filter(item => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false
+      }
+    },
+    async getMultas() {
+      if (this.multas.length !== 0) return;
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "multas"));
+        const qs = await getDocs(q);
+        qs.forEach((d) => {
+          this.multas.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async createMulta(multa) {
+      const newMulta = { ...multa }
+      delete newMulta.id
+      try {
+        const docRef = await addDoc(collection(db, 'multas'), newMulta)
+        this.multas.push({
+          id: docRef.id,
+          ...newMulta
+        })
+      } catch (error) {
+        console.log(error);
+      } finally { }
+    },
+    async editarMulta(multa) {
+      const multaId = multa.id
+      try {
+        const docRef = doc(db, 'multa', multaId)
+        const changedFields = {
+          ...multa
+        }
+        delete changedFields.id
+        await updateDoc(docRef, changedFields)
+        this.multas = this.multas.map(item => {
+          if (item.id === multaId) {
+            return { ...item, ...changedFields }
+          }
+          return item
+        })
+      } catch (error) {
+        console.log(error)
+      } finally { }
+    },
+    async eliminarMulta(id) {
+      this.loadingDeleteDoc = true
+      try {
+        const docRef = doc(db, 'multas', id)
+        await deleteDoc(docRef)
+        this.multas = this.multas.filter(item => item.id !== id)
       } catch (error) {
         console.log(error)
       } finally {
