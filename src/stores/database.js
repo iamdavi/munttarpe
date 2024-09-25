@@ -8,6 +8,7 @@ export const useDatabaseStore = defineStore("database", {
     jugadores: [],
     eventos: [],
     multas: [],
+    multasJugador: [],
     multaEquipo: null,
     loadingDoc: false,
     loadingDeleteDoc: false,
@@ -270,6 +271,72 @@ export const useDatabaseStore = defineStore("database", {
         delete changedFields.id
         await updateDoc(docRef, changedFields)
         this.multas = this.multas.map(item => {
+          if (item.id === multaId) {
+            return { ...item, ...changedFields }
+          }
+          return item
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+      }
+    },
+    // MultasJugador
+    async getMultasJugador() {
+      if (this.multasJugador.length !== 0) return;
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "multasJugador"));
+        const qs = await getDocs(q);
+        qs.forEach((d) => {
+          this.multasJugador.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async createMultaJugador(data) {
+      let payload = { ...data };
+      this.loadingDoc = true;
+      try {
+        const docRef = await addDoc(collection(db, 'multasJugador'), payload)
+        this.multasJugador.push({
+          id: docRef.id,
+          ...payload
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async deleteMultaJugador(id) {
+      this.loadingDeleteDoc = true
+      try {
+        const docRef = doc(db, 'multasJugador', id)
+        await deleteDoc(docRef)
+        this.multasJugador = this.multasJugador.filter(item => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false
+      }
+    },
+    async editMultaJugador(multa) {
+      const multaId = multa.id
+      try {
+        const docRef = doc(db, 'multasJugador', multaId)
+        const changedFields = {
+          ...multa
+        }
+        delete changedFields.id
+        await updateDoc(docRef, changedFields)
+        this.multasJugador = this.multasJugador.map(item => {
           if (item.id === multaId) {
             return { ...item, ...changedFields }
           }

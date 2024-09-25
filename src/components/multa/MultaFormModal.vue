@@ -164,6 +164,15 @@ const formatDate = () => {
   }
 };
 
+const clearFormFields = () => {
+  form.value.jugador = null;
+  form.value.concepto = null;
+  form.value.fecha = new Date();
+  form.value.descripcion = null;
+  form.value.pagado = false;
+  form.value.cantidad = null;
+};
+
 const closeDialog = () => {
   emit("closeDialog");
 };
@@ -174,11 +183,11 @@ watch(
 );
 
 const handleModalForm = () => {
-  console.log(form.value);
+  databaseStore.createMultaJugador(form.value);
+  clearFormFields();
 };
 
 onMounted(() => {
-  databaseStore.getJugadores();
   databaseStore.getMultas();
   formatDate();
 });
