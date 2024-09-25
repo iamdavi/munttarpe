@@ -11,6 +11,11 @@
       </h3>
     </v-col>
   </v-row>
+  <v-row class="bg-green-darken-4">
+    <v-col cols="12">
+      <h1>¿Quienes somos?</h1>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup>

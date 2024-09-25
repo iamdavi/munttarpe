@@ -113,14 +113,6 @@ watch(
   }
 );
 
-// Sincronizar el diálogo con el prop
-// watch(
-//   () => props.isOpen,
-//   (newVal) => {
-//     internalDialog.value = newVal;
-//   }
-// );
-
 // Función para cerrar el diálogo
 const closeDialog = () => {
   emit("closeDialog");

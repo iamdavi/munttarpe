@@ -126,8 +126,6 @@ export const useDatabaseStore = defineStore("database", {
           }
           return item
         })
-        console.log(this.jugadores);
-
       } catch (error) {
         console.log(error)
       } finally {
@@ -192,6 +190,26 @@ export const useDatabaseStore = defineStore("database", {
         console.log(error)
       } finally {
         this.loadingDeleteDoc = false
+      }
+    },
+    async editEvent(event) {
+      const eventId = event.id
+      try {
+        const docRef = doc(db, 'eventos', eventId)
+        const changedFields = {
+          ...event
+        }
+        delete changedFields.id
+        await updateDoc(docRef, changedFields)
+        this.eventos = this.eventos.map(item => {
+          if (item.id === eventId) {
+            return { ...item, ...changedFields }
+          }
+          return item
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
       }
     },
   },

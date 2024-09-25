@@ -145,6 +145,7 @@ const rules = {
 };
 
 const clearFormFields = () => {
+  form.value.id = null;
   form.value.tipo = null;
   form.value.equipos = [];
   form.value.eventTime = null;
@@ -157,6 +158,7 @@ watch(
   () => props.evento,
   (newVal) => {
     if (newVal) {
+      form.value.id = newVal.id;
       form.value.tipo = newVal.tipo;
       form.value.equipos = newVal.equipos;
       form.value.eventTime = newVal.eventTime;
@@ -195,7 +197,7 @@ const handleModalForm = async () => {
       }
       databaseStore.createEvent(form.value, props.eventType);
     } else {
-      databaseStore.editarEvent(form.value);
+      databaseStore.editEvent(form.value);
     }
   } catch (error) {
     console.log(error);
