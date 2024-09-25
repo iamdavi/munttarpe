@@ -51,7 +51,7 @@
               <i>- No se han creado conceptos de multas -</i>
             </v-list-item-title>
           </v-list-item>
-          <v-divider class="mb-3 mt-2"></v-divider>
+          <v-divider class="mb-3 mt-0"></v-divider>
           <v-list-item class="pa-0">
             <v-form @submit.prevent="handleModalForm">
               <v-card variant="outlined">

@@ -19,19 +19,32 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-col cols="12" lg="4" md="4">
-      <MultaList />
+    <v-col cols="12" md="4">
+      <v-row>
+        <v-col cols="12">
+          <MultaSelectorEquipo />
+        </v-col>
+        <v-col cols="12">
+          <MultaList v-if="databaseStore.multaEquipo" />
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col cols="12" md="8">
+      <MultaListPagadasPendientes v-if="databaseStore.multaEquipo" />
     </v-col>
   </v-row>
 </template>
 
 <script setup>
-import MultaList from "@/components/multa/MultaList.vue";
 import { ref } from "vue";
-import { useDatabaseStore } from "../stores/database";
+import { useDatabaseStore } from "@/stores/database";
+import MultaList from "@/components/multa/MultaList.vue";
+import MultaSelectorEquipo from "@/components/multa/MultaSelectorEquipo.vue";
+import MultaListPagadasPendientes from "@/components/multa/MultaListPagadasPendientes.vue";
+
+const databaseStore = useDatabaseStore();
 
 const isDialogOpen = ref(false);
-const databaseStore = useDatabaseStore();
 </script>
 
 <style scoped>

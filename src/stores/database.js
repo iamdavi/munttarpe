@@ -8,6 +8,7 @@ export const useDatabaseStore = defineStore("database", {
     jugadores: [],
     eventos: [],
     multas: [],
+    multaEquipo: null,
     loadingDoc: false,
     loadingDeleteDoc: false,
   }),
