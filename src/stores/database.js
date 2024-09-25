@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { db } from "../firebaseConfig";
-import { collection, query, getDocs, addDoc, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 
 export const useDatabaseStore = defineStore("database", {
   state: () => ({
@@ -216,6 +216,26 @@ export const useDatabaseStore = defineStore("database", {
       }
     },
     // Multas
+    async getMultasEquipo() {
+      console.log(this.multaEquipo);
+      
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "multas"), where('equipo', '==', this.multaEquipo));
+        const qs = await getDocs(q);
+        this.multas = [];
+        qs.forEach((d) => {
+          this.multas.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
     async getMultas() {
       if (this.multas.length !== 0) return;
       this.loadingDoc = true;
@@ -235,7 +255,7 @@ export const useDatabaseStore = defineStore("database", {
       }
     },
     async createMulta(data) {
-      let payload = { ...data };
+      let payload = { ...data, equipo: this.multaEquipo };
       this.loadingDoc = true;
       try {
         const docRef = await addDoc(collection(db, 'multas'), payload)

@@ -40,7 +40,7 @@ import MultaSelectorEquipo from "@/components/multa/MultaSelectorEquipo.vue";
 import MultaListPagadasPendientes from "@/components/multa/MultaListPagadasPendientes.vue";
 
 const databaseStore = useDatabaseStore();
-
+databaseStore.getJugadores();
 const isDialogOpen = ref(false);
 </script>
 
