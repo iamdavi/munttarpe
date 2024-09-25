@@ -85,7 +85,7 @@
                     color="green-darken-4"
                     type="submit"
                   >
-                    <v-icon icon="mdi-invoice-plus-outline"></v-icon>
+                    <v-icon icon="mdi-invoice-text-fast-outline"></v-icon>
                   </v-btn>
                 </v-card-text>
               </v-card>

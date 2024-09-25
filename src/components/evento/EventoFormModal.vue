@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="internalDialog" width="auto" persistent>
+  <v-dialog v-model="internalDialog" max-width="500" persistent>
     <v-form @submit.prevent="handleModalForm">
       <v-card
         :prepend-icon="dialogIcon()"

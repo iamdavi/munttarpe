@@ -54,7 +54,7 @@
                   <v-col cols="12" md="6">
                     <v-select
                       label="Tipo"
-                      :items="jugadorType"
+                      :items="jugadorTypes"
                       v-model="form.tipo"
                       variant="underlined"
                       @update:modelValue="tipoChange"

@@ -33,11 +33,17 @@
       <MultaListPagadasPendientes v-if="databaseStore.multaEquipo" />
     </v-col>
   </v-row>
+  <MultaFormModal
+    actionType="crear"
+    :isOpen="isDialogOpen"
+    @closeDialog="isDialogOpen = false"
+  />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useDatabaseStore } from "@/stores/database";
+import MultaFormModal from "@/components/multa/MultaFormModal.vue";
 import MultaList from "@/components/multa/MultaList.vue";
 import MultaSelectorEquipo from "@/components/multa/MultaSelectorEquipo.vue";
 import MultaListPagadasPendientes from "@/components/multa/MultaListPagadasPendientes.vue";
