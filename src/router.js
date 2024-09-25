@@ -8,6 +8,7 @@ import Equipo from "./views/Equipo.vue";
 import Jugador from "./views/Jugador.vue";
 import Calendario from "./views/Calendario.vue";
 import Noticias from "./views/Noticias.vue";
+import Multa from "./views/Multa.vue";
 
 const requireAuth = async (to, from, next) => {
   const userStore = useUserStore();
@@ -27,6 +28,7 @@ const routes = [
   { path: "/jugadores", component: Jugador, beforeEnter: requireAuth },
   { path: "/eventos", component: Calendario, beforeEnter: requireAuth },
   { path: "/noticias", component: Noticias, beforeEnter: requireAuth },
+  { path: "/multas", component: Multa, beforeEnter: requireAuth },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
 ];

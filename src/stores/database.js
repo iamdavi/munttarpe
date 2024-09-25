@@ -7,6 +7,7 @@ export const useDatabaseStore = defineStore("database", {
     equipos: [],
     jugadores: [],
     eventos: [],
+    multas: [],
     loadingDoc: false,
     loadingDeleteDoc: false,
   }),
@@ -203,6 +204,72 @@ export const useDatabaseStore = defineStore("database", {
         await updateDoc(docRef, changedFields)
         this.eventos = this.eventos.map(item => {
           if (item.id === eventId) {
+            return { ...item, ...changedFields }
+          }
+          return item
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+      }
+    },
+    // Multas
+    async getMultas() {
+      if (this.multas.length !== 0) return;
+      this.loadingDoc = true;
+      try {
+        const q = query(collection(db, "multas"));
+        const qs = await getDocs(q);
+        qs.forEach((d) => {
+          this.multas.push({
+            id: d.id,
+            ...d.data(),
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async createMulta(data) {
+      let payload = { ...data };
+      this.loadingDoc = true;
+      try {
+        const docRef = await addDoc(collection(db, 'multas'), payload)
+        this.multas.push({
+          id: docRef.id,
+          ...payload
+        })
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+      }
+    },
+    async deleteMulta(id) {
+      this.loadingDeleteDoc = true
+      try {
+        const docRef = doc(db, 'multas', id)
+        await deleteDoc(docRef)
+        this.multas = this.multas.filter(item => item.id !== id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false
+      }
+    },
+    async editMulta(multa) {
+      const multaId = multa.id
+      try {
+        const docRef = doc(db, 'multas', multaId)
+        const changedFields = {
+          ...multa
+        }
+        delete changedFields.id
+        await updateDoc(docRef, changedFields)
+        this.multas = this.multas.map(item => {
+          if (item.id === multaId) {
             return { ...item, ...changedFields }
           }
           return item
