@@ -29,6 +29,7 @@
         block
         @click="
           eventType = 'period';
+          actionType = 'crear';
           isDialogOpen = true;
         "
       >
@@ -51,6 +52,7 @@
             color="green-darken-1"
             @click="
               eventType = 'day';
+              actionType = 'crear';
               isDialogOpen = true;
             "
           >
@@ -70,6 +72,7 @@
             :evento="event"
             :equipos="getEquipoDataById(event.equipos)"
             @deleteEvent="showDeleteDialog(event)"
+            @editEvent="editEventHandler(event)"
           />
         </v-col>
       </v-row>
@@ -108,9 +111,10 @@
   </v-dialog>
   <EventoFormModal
     :isOpen="isDialogOpen"
-    actionType="crear"
+    :actionType="actionType"
     :eventType="eventType"
     :eventDay="formatedDate"
+    :evento="evento"
     @closeDialog="isDialogOpen = false"
   />
 </template>
@@ -125,6 +129,8 @@ import { useDatabaseStore } from "@/stores/database";
 const databaseStore = useDatabaseStore();
 databaseStore.getEvents();
 
+const evento = ref(null);
+const actionType = ref(null);
 const date = useDate();
 const eventType = ref(null);
 const isDialogOpen = ref(false);
@@ -143,6 +149,12 @@ const deleteEventAction = () => {
   databaseStore.deleteEvent(eventToDelete.value.id);
   deleteEventDialog.value = false;
   eventToDelete.value = null;
+};
+
+const editEventHandler = (eventoToEdit) => {
+  actionType.value = "editar";
+  evento.value = eventoToEdit;
+  isDialogOpen.value = true;
 };
 
 const getEquipoDataById = (ids) => {

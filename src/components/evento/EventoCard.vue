@@ -37,9 +37,14 @@
       </div>
       <v-divider></v-divider>
       <v-card-actions v-if="!props.isPreview">
-        <v-btn block variant="outlined" prepend-icon="mdi-pencil-outline"
-          >Editar</v-btn
+        <v-btn
+          block
+          variant="outlined"
+          prepend-icon="mdi-pencil-outline"
+          @click="$emit('editEvent')"
         >
+          Editar
+        </v-btn>
       </v-card-actions>
     </div>
   </v-card>
@@ -71,7 +76,7 @@ const props = defineProps({
 });
 const eventData = ref(props.evento);
 
-const emits = defineEmits(["deleteEvent"]);
+const emits = defineEmits(["deleteEvent", "editEvent"]);
 
 const getSubtitle = () => {
   let result = eventData.value.eventTime ? eventData.value.eventTime : "??:??";

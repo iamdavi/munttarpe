@@ -128,7 +128,7 @@ watch(group, () => {
 });
 
 function onScrollTrans(e) {
-  isTransparent.value = !(e.target.documentElement.scrollTop > 200);
+  isTransparent.value = !(e.target.documentElement.scrollTop > 50);
 }
 
 onBeforeMount(() => {
