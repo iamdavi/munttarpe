@@ -1,5 +1,5 @@
 <template>
-  <v-select v-model="databaseStore.multaEquipo" @update:modelValue="databaseStore.getMultasEquipo()"
+  <v-select v-model="multaStore.multaEquipo" @update:modelValue="multaStore.getMultasEquipo()"
     :items="databaseStore.equipos" hint="Selecciona un equipo para ver las multas y los pagos" persistent-hint
     color="blue-grey-lighten-2" item-title="nombre" item-value="id" label="Equipo *"
     :rules="[(v) => !!v || 'Debes seleccionar al menos 1 equipo']" variant="underlined">
@@ -23,9 +23,10 @@
 
 <script setup>
 import { useDatabaseStore } from "@/stores/database";
+import { useMultaStore } from "@/stores/multa";
 import IconDinamic from "@/components/icons/MunttarpeLogorDinamicSm.vue";
-import { watch } from "vue";
 
+const multaStore = useMultaStore();
 const databaseStore = useDatabaseStore();
 databaseStore.getEquipos();
 </script>

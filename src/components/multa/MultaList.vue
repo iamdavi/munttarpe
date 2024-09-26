@@ -7,7 +7,7 @@
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <v-list density="compact" nav class="pa-0">
-          <v-list-item v-for="(multa, i) in databaseStore.multas" :key="multa.id" :value="multa">
+          <v-list-item v-for="(multa, i) in multaStore.multas" :key="multa.id" :value="multa">
             <template v-slot:prepend>
               <strong class="me-2">{{ i + 1 }}.</strong>
             </template>
@@ -22,11 +22,11 @@
                   <v-icon icon="mdi-currency-eur" size="small"></v-icon>
                 </span>
                 <v-btn class="ms-2" density="compact" variant="text" color="error" icon="mdi-close-circle-outline"
-                  :disabled="databaseStore.loadingDeleteDoc" @click="databaseStore.deleteMulta(multa.id)"></v-btn>
+                  :disabled="multaStore.loadingDeleteDoc" @click="multaStore.deleteMulta(multa.id)"></v-btn>
               </div>
             </v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="databaseStore.multas.length == 0" class="text-center">
+          <v-list-item v-if="multaStore.multas.length == 0" class="text-center">
             <v-list-item-title>
               <i>- No se han creado conceptos de multas -</i>
             </v-list-item-title>
@@ -45,7 +45,7 @@
                       <v-icon icon="mdi-currency-eur" size="x-small"></v-icon>
                     </template>
                   </v-text-field>
-                  <v-btn :loading="databaseStore.loadingDoc" color="green-darken-4" type="submit">
+                  <v-btn :loading="multaStore.loadingDoc" color="green-darken-4" type="submit">
                     <v-icon icon="mdi-invoice-text-fast-outline"></v-icon>
                   </v-btn>
                 </v-card-text>
@@ -60,9 +60,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { useDatabaseStore } from "@/stores/database";
+import { useMultaStore } from "@/stores/multa";
 
-const databaseStore = useDatabaseStore();
+const multaStore = useMultaStore();
 
 const form = ref({
   concepto: null,
@@ -75,7 +75,7 @@ const clearForm = () => {
 };
 
 const handleModalForm = () => {
-  databaseStore.createMulta(form.value);
+  multaStore.createMulta(form.value);
   clearForm();
 };
 </script>

@@ -20,12 +20,12 @@
 					<MultaSelectorEquipo />
 				</v-col>
 				<v-col cols="12">
-					<MultaList v-if="databaseStore.multaEquipo" />
+					<MultaList v-if="multaStore.multaEquipo" />
 				</v-col>
 			</v-row>
 		</v-col>
 		<v-col cols="12" md="8">
-			<MultaListPagadasPendientes v-if="databaseStore.multaEquipo" />
+			<MultaListPagadasPendientes v-if="multaStore.multaEquipo" />
 		</v-col>
 	</v-row>
 	<MultaFormModal actionType="crear" :isOpen="isDialogOpen" @closeDialog="isDialogOpen = false" />
@@ -34,11 +34,13 @@
 <script setup>
 import { ref } from "vue";
 import { useDatabaseStore } from "@/stores/database";
+import { useMultaStore } from "@/stores/multa";
 import MultaFormModal from "@/components/multa/MultaFormModal.vue";
 import MultaList from "@/components/multa/MultaList.vue";
 import MultaSelectorEquipo from "@/components/multa/MultaSelectorEquipo.vue";
 import MultaListPagadasPendientes from "@/components/multa/MultaListPagadasPendientes.vue";
 
+const multaStore = useMultaStore();
 const databaseStore = useDatabaseStore();
 databaseStore.getJugadores();
 const isDialogOpen = ref(false);
