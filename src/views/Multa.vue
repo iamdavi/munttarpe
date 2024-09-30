@@ -1,34 +1,54 @@
 <template>
-	<v-row class="mt-container">
-		<v-col>
-			<div class="d-flex justify-space-between align-center">
-				<div class="d-flex align-center ga-2">
-					<v-icon icon="mdi-invoice-text-outline" size="large"></v-icon>
-					<h1>Multas</h1>
-				</div>
-				<v-btn class="float-right" color="green-darken-1" prepend-icon="mdi-plus" variant="outlined"
-					@click="isDialogOpen = true">
-					Crear
-				</v-btn>
-			</div>
-		</v-col>
-	</v-row>
-	<v-row>
-		<v-col cols="12" md="4">
-			<v-row>
-				<v-col cols="12">
-					<MultaSelectorEquipo />
-				</v-col>
-				<v-col cols="12">
-					<MultaList v-if="multaStore.multaEquipo" />
-				</v-col>
-			</v-row>
-		</v-col>
-		<v-col cols="12" md="8">
-			<MultaListPagadasPendientes v-if="multaStore.multaEquipo" />
-		</v-col>
-	</v-row>
-	<MultaFormModal actionType="crear" :isOpen="isDialogOpen" @closeDialog="isDialogOpen = false" />
+  <v-row class="mt-container">
+    <v-col>
+      <div class="d-flex justify-space-between align-center">
+        <div class="d-flex align-center ga-2">
+          <v-icon icon="mdi-invoice-text-outline" size="large"></v-icon>
+          <h1>Multas</h1>
+        </div>
+        <!--
+        <v-btn
+          class="float-right"
+          color="green-darken-1"
+          prepend-icon="mdi-plus"
+          variant="outlined"
+          @click="isDialogOpen = true"
+        >
+          Crear
+        </v-btn>
+		-->
+      </div>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12" md="4">
+      <v-row>
+        <v-col cols="12">
+          <MultaSelectorEquipo />
+        </v-col>
+        <v-col cols="12">
+          <MultaList v-if="multaStore.multaEquipo" />
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col cols="12" md="8">
+      <MultaListPagadasPendientes v-if="multaStore.multaEquipo" />
+    </v-col>
+  </v-row>
+  <v-fab
+    id="fab-create-multa"
+    extended
+    prepend-icon="mdi-invoice-plus-outline"
+    text="Crear"
+    color="green-darken-4"
+    variant="outlined"
+    :active="!!multaStore.multaEquipo"
+  ></v-fab>
+  <MultaFormModal
+    actionType="crear"
+    :isOpen="isDialogOpen"
+    @closeDialog="isDialogOpen = false"
+  />
 </template>
 
 <script setup>
@@ -48,6 +68,12 @@ const isDialogOpen = ref(false);
 
 <style scoped>
 .text-field-price-width {
-	max-width: 92px;
+  max-width: 92px;
+}
+#fab-create-multa {
+  position: absolute;
+  right: 140px;
+  bottom: 60px;
+  height: unset !important;
 }
 </style>

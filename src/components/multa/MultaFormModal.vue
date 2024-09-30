@@ -119,6 +119,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useDatabaseStore } from "@/stores/database";
+import { useMultaStore } from "@/stores/multa";
 
 const props = defineProps({
   isOpen: Boolean,
@@ -128,7 +129,9 @@ const props = defineProps({
 const internalDialog = ref(props.isOpen);
 const action = ref(props.actionType);
 const timeModal = ref(false);
+
 const databaseStore = useDatabaseStore();
+const multaStore = useMultaStore();
 
 const form = ref({
   jugador: null,
@@ -147,7 +150,7 @@ const getJugadoresOfTeam = () => {
 };
 
 const getConceptosMultasByTeam = () => {
-  const allMultas = databaseStore.multas;
+  const allMultas = multaStore.multas;
   // @TODO -> filtrar multas
   return allMultas;
 };
@@ -183,12 +186,12 @@ watch(
 );
 
 const handleModalForm = () => {
-  databaseStore.createMultaJugador(form.value);
+  multaStore.createMultaJugador(form.value);
   clearFormFields();
 };
 
 onMounted(() => {
-  databaseStore.getMultas();
+  multaStore.getMultas();
   formatDate();
 });
 </script>
