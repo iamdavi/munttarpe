@@ -35,20 +35,9 @@
       <MultaListPagadasPendientes v-if="multaStore.multaEquipo" />
     </v-col>
   </v-row>
-  <v-fab
-    id="fab-create-multa"
-    extended
-    prepend-icon="mdi-invoice-plus-outline"
-    text="Crear"
-    color="green-darken-4"
-    variant="outlined"
-    :active="!!multaStore.multaEquipo"
-  ></v-fab>
-  <MultaFormModal
-    actionType="crear"
-    :isOpen="isDialogOpen"
-    @closeDialog="isDialogOpen = false"
-  />
+  <v-fab id="fab-create-multa" extended prepend-icon="mdi-invoice-plus-outline" text="Crear" color="green-darken-4"
+    @click="isDialogOpen = true" :active="!!multaStore.multaEquipo"></v-fab>
+  <MultaFormModal actionType="crear" :isOpen="isDialogOpen" @closeDialog="isDialogOpen = false" />
 </template>
 
 <script setup>
@@ -70,6 +59,7 @@ const isDialogOpen = ref(false);
 .text-field-price-width {
   max-width: 92px;
 }
+
 #fab-create-multa {
   position: absolute;
   right: 140px;

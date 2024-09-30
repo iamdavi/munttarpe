@@ -6,17 +6,10 @@
           <v-icon icon="mdi-handball" size="large"></v-icon>
           <h1>Jugadores</h1>
         </div>
-        <v-btn
-          class="float-right"
-          color="green-darken-1"
-          prepend-icon="mdi-plus"
-          variant="outlined"
-          @click="
-            jugador = { tipo: null };
-            actionType = 'crear';
-            isDialogOpen = true;
-          "
-        >
+        <v-btn class="float-right" color="green-darken-1" prepend-icon="mdi-plus" variant="outlined" @click="
+          actionType = 'crear';
+        isDialogOpen = true;
+        ">
           Crear
         </v-btn>
       </div>
@@ -26,11 +19,7 @@
   <v-row>
     <v-col class="d-flex ga-8 overflow-x-auto pb-6">
       <div v-if="databaseStore.loadingDoc" v-for="n in 3">
-        <v-skeleton-loader
-          :key="n"
-          width="300px"
-          type="card,article,actions"
-        ></v-skeleton-loader>
+        <v-skeleton-loader :key="n" width="300px" type="card,article,actions"></v-skeleton-loader>
       </div>
       <v-empty-state v-if="databaseStore.jugadores.length == 0" class="mx-auto">
         <template v-slot:title>
@@ -45,30 +34,18 @@
           </div>
         </template>
         <template v-slot:actions>
-          <v-btn
-            color="green-darken-1"
-            prepend-icon="mdi-plus"
-            variant="outlined"
-            @click="isDialogOpen = true"
-          >
+          <v-btn color="green-darken-1" prepend-icon="mdi-plus" variant="outlined" @click="isDialogOpen = true">
             Crear primer jugador
           </v-btn>
         </template>
       </v-empty-state>
       <div v-else v-for="jugador in databaseStore.jugadores" :key="jugador.id">
-        <JugadorCard
-          :jugador="jugador"
-          @editJugadorData="changeJugadorData(jugador)"
-        />
+        <JugadorCard :jugador="jugador" @editJugadorData="changeJugadorData(jugador)" />
       </div>
     </v-col>
   </v-row>
-  <JugadorFormModal
-    :isOpen="isDialogOpen"
-    :actionType="actionType"
-    :jugador="jugador"
-    @closeDialog="isDialogOpen = false"
-  />
+  <JugadorFormModal :isOpen="isDialogOpen" :actionType="actionType" :jugador="jugador"
+    @closeDialog="isDialogOpen = false" />
 </template>
 
 <script setup>
@@ -79,6 +56,7 @@ import JugadorFormModal from "@/components/jugador/JugadorFormModal.vue";
 
 const databaseStore = useDatabaseStore();
 databaseStore.getJugadores();
+databaseStore.getEquipos();
 
 const jugador = ref(null);
 const actionType = ref("crear");
