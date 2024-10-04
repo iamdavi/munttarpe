@@ -6,7 +6,7 @@
         Multas pendientes
       </h3>
       <pre>
-      {{ databaseStore.multasJugador }}
+      {{ multaStore.multasGroupedByJugador }}
       </pre>
     </v-col>
     <v-col cols="12" md="2" class="text-center">
@@ -22,9 +22,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useDatabaseStore } from "@/stores/database";
+import { useMultaStore } from "../../stores/multa";
 
-const databaseStore = useDatabaseStore();
-const multasJugador = ref(null)
+const multaStore = useMultaStore();
+multaStore.getMultasJugador();
+console.log(multaStore.multasGroupedByJugador);
 </script>

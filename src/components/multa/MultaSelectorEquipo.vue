@@ -1,8 +1,17 @@
 <template>
-  <v-select v-model="multaStore.multaEquipo" @update:modelValue="equipoChangeEvent()" :items="databaseStore.equipos"
-    hint="Selecciona un equipo para ver las multas y los pagos" persistent-hint color="blue-grey-lighten-2"
-    item-title="nombre" item-value="id" label="Equipo *" :rules="[(v) => !!v || 'Debes seleccionar al menos 1 equipo']"
-    variant="underlined">
+  <v-select
+    v-model="multaStore.multaEquipo"
+    @update:modelValue="equipoChangeEvent()"
+    :items="databaseStore.equipos"
+    hint="Selecciona un equipo para ver las multas y los pagos"
+    persistent-hint
+    color="blue-grey-lighten-2"
+    item-title="nombre"
+    item-value="id"
+    label="Equipo *"
+    :rules="[(v) => !!v || 'Debes seleccionar al menos 1 equipo']"
+    variant="underlined"
+  >
     <template v-slot:selection="{ props, item }">
       <div class="me-3 icon-dinamic-wrapper">
         <IconDinamic :color="item.raw.color" />
@@ -31,8 +40,8 @@ const databaseStore = useDatabaseStore();
 databaseStore.getEquipos();
 
 const equipoChangeEvent = () => {
+  databaseStore.getJugadores();
   multaStore.getMultasEquipo();
-  multaStore.getJugadoresEquipo()
-  multaStore.getMultasJugador()
-}
+  multaStore.getJugadoresEquipo();
+};
 </script>

@@ -124,7 +124,10 @@ export const useMultaStore = defineStore("multa", {
             ...d.data(),
           });
         });
-        this.multasGroupedByJugador = groupMultasByPlayer(this.multasJugador);
+        const results = await groupMultasByPlayer();
+        for (const value of Object.values(results)) {
+          this.multasGroupedByJugador.push(value)
+        }
       } catch (error) {
         console.log(error);
       } finally {
