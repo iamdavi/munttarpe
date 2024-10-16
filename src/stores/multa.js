@@ -124,13 +124,14 @@ export const useMultaStore = defineStore("multa", {
             ...d.data(),
           });
         });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.multasGroupedByJugador = []
         const results = await groupMultasByPlayer();
         for (const value of Object.values(results)) {
           this.multasGroupedByJugador.push(value)
         }
-      } catch (error) {
-        console.log(error);
-      } finally {
         this.loadingDoc = false;
       }
     },
@@ -164,10 +165,41 @@ export const useMultaStore = defineStore("multa", {
           id: docRef.id,
           ...payload,
         });
+        console.log('multa creada');
+
       } catch (error) {
         console.log(error);
       } finally {
         this.loadingDoc = false;
+        this.multasGroupedByJugador = []
+        console.log('agupando multas');
+
+        const results = await groupMultasByPlayer();
+        for (const value of Object.values(results)) {
+          this.multasGroupedByJugador.push(value)
+        }
+      }
+    },
+    async deleteMultasById(arrayIds) {
+      this.loadingDeleteDoc = true;
+      try {
+        const promesas = arrayIds.map(async (id) => {
+          const docRef = doc(db, 'multasJugador', id);
+          await deleteDoc(docRef);
+        });
+        await Promise.all(promesas);
+        this.multasJugador = this.multasJugador.filter(
+          (item) => !arrayIds.includes(item.id)
+        );
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingDeleteDoc = false;
+        this.multasGroupedByJugador = []
+        const results = await groupMultasByPlayer();
+        for (const value of Object.values(results)) {
+          this.multasGroupedByJugador.push(value)
+        }
       }
     },
     async deleteMultaJugador(id) {
@@ -182,6 +214,11 @@ export const useMultaStore = defineStore("multa", {
         console.log(error);
       } finally {
         this.loadingDeleteDoc = false;
+        this.multasGroupedByJugador = []
+        const results = await groupMultasByPlayer();
+        for (const value of Object.values(results)) {
+          this.multasGroupedByJugador.push(value)
+        }
       }
     },
     async editMultaJugador(multa) {

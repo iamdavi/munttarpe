@@ -17,7 +17,7 @@ export const groupMultasByPlayer = async () => {
     }
 
     const multaData = multaStore.multas.find((m) => m.id == mt.concepto);
-    result[mt.jugador]["multas"].push({ ...multaData });
+    result[mt.jugador]["multas"].push({ ...mt, concepto: { ...multaData } });
   }
   return result
 };
