@@ -195,9 +195,9 @@ const handleModalForm = async (event) => {
       if (props.eventType == "day") {
         form.value.day = props.eventDay;
       }
-      databaseStore.createEvent(form.value, props.eventType);
+      await databaseStore.createEvent(form.value, props.eventType);
     } else {
-      databaseStore.editEvent(form.value);
+      await databaseStore.editEvent(form.value);
     }
   } catch (error) {
     console.log(error);

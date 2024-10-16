@@ -78,7 +78,10 @@ const eventData = ref(props.evento);
 
 watch(
   () => props.evento,
-  (nv) => (eventData.value = nv)
+  (nv) => {
+    if (!nv) return;
+    eventData.value = nv;
+  }
 );
 
 const emits = defineEmits(["deleteEvent", "editEvent"]);

@@ -120,7 +120,10 @@
     :eventType="eventType"
     :eventDay="formatedDate"
     :evento="evento"
-    @closeDialog="isDialogOpen = false"
+    @closeDialog="
+      isDialogOpen = false;
+      updateEventMarkers();
+    "
   />
 </template>
 
@@ -192,13 +195,20 @@ const updateEventMarkers = () => {
 
       if (!eventsToHandle.length) return;
 
-      const eventDots = document.createElement("div");
+      const eventDots = cell.querySelector(".event-dots")
+        ? cell.querySelector(".event-dots")
+        : document.createElement("div");
       eventDots.classList.add("event-dots");
+      eventDots.innerHTML = "";
 
       eventsToHandle.forEach((event) => {
         event.equipos.forEach((equipo) => {
+          // En caso de que ya haya un punto para el equipo, no colocamos más
+          if (eventDots.querySelector(`[data-equipo="${equipo}"]`)) return;
+
           const equipoData = databaseStore.equipos.find((e) => e.id == equipo);
           const dot = document.createElement("div");
+          dot.dataset.equipo = equipo;
           dot.classList.add("event-dot");
           dot.style.backgroundColor = equipoData.color;
           eventDots.appendChild(dot);
@@ -221,7 +231,6 @@ onMounted(async () => {
 
 watch(selectedDate, (newVal) => {
   formatedDate.value = date.format(newVal, "keyboardDate");
-  updateEventMarkers();
 });
 </script>
 
