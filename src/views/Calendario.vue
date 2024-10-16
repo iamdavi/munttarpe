@@ -179,6 +179,13 @@ const updateEventMarkers = () => {
     const cells = datePicker.value.$el.querySelectorAll(
       ".v-date-picker-month__day"
     );
+
+    const obtenerNumeroDia = (fecha) => {
+      const [dia, mes, año] = fecha.split("/").map(Number);
+      const fechaObj = new Date(año, mes - 1, dia); // mes - 1 porque los meses en JavaScript son de 0 a 11
+      return fechaObj.getDay();
+    };
+
     cells.forEach((cell) => {
       const date = cell
         .getAttribute("data-v-date")
@@ -190,7 +197,11 @@ const updateEventMarkers = () => {
       if (!date) return;
 
       const eventsToHandle = databaseStore.eventos.filter((event) => {
-        return event.day === date;
+        if (event.eventType == "period") {
+          return event.weeksDay.includes(obtenerNumeroDia(date));
+        } else {
+          return event.day === date;
+        }
       });
 
       if (!eventsToHandle.length) return;
