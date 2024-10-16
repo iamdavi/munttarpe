@@ -20,7 +20,12 @@
         show-adjacent-months
         ref="datePicker"
         elevation="4"
-      ></v-date-picker>
+        @update:modelValue="changeEvent"
+        @update:month="updateEventMarkers"
+        @update:viewMode="changeEvent"
+        @update:year="changeEvent"
+      >
+      </v-date-picker>
       <v-btn
         color="green-darken-1"
         prepend-icon="mdi-calendar-refresh"
@@ -127,7 +132,7 @@ import EventoCard from "@/components/evento/EventoCard.vue";
 import { useDatabaseStore } from "@/stores/database";
 
 const databaseStore = useDatabaseStore();
-databaseStore.getEvents();
+// databaseStore.getEvents();
 
 const evento = ref(null);
 const actionType = ref(null);
@@ -172,29 +177,46 @@ const updateEventMarkers = () => {
       ".v-date-picker-month__day"
     );
     cells.forEach((cell) => {
-      const date = cell.getAttribute("data-v-date");
-      const eventsToHandle = databaseStore.eventos.filter(
-        (event) => event.date === date
-      );
+      const date = cell
+        .getAttribute("data-v-date")
+        ?.replaceAll("-", "/")
+        .split("/")
+        .reverse()
+        .join("/");
 
-      if (eventsToHandle.length) {
-        const eventDots = document.createElement("div");
-        eventDots.classList.add("event-dots");
-        eventsToHandle.forEach((event) => {
+      if (!date) return;
+
+      const eventsToHandle = databaseStore.eventos.filter((event) => {
+        return event.day === date;
+      });
+
+      if (!eventsToHandle.length) return;
+
+      const eventDots = document.createElement("div");
+      eventDots.classList.add("event-dots");
+
+      eventsToHandle.forEach((event) => {
+        event.equipos.forEach((equipo) => {
+          const equipoData = databaseStore.equipos.find((e) => e.id == equipo);
           const dot = document.createElement("div");
           dot.classList.add("event-dot");
-          dot.style.backgroundColor = event.color;
+          dot.style.backgroundColor = equipoData.color;
           eventDots.appendChild(dot);
         });
-        cell.appendChild(eventDots);
-      }
+      });
+      cell.appendChild(eventDots);
     });
   });
 };
 
-onMounted(() => {
+const changeEvent = (e) => {
+  console.log(e);
+};
+
+onMounted(async () => {
+  await databaseStore.getEquipos();
+  await databaseStore.getEvents();
   updateEventMarkers();
-  databaseStore.getEquipos();
 });
 
 watch(selectedDate, (newVal) => {

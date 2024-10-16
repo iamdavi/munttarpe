@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { daysOfWeek } from "@/constData/data";
 import IconDinamic from "@/components/icons/MunttarpeLogorDinamicSm.vue";
 
@@ -75,6 +75,11 @@ const props = defineProps({
   },
 });
 const eventData = ref(props.evento);
+
+watch(
+  () => props.evento,
+  (nv) => (eventData.value = nv)
+);
 
 const emits = defineEmits(["deleteEvent", "editEvent"]);
 

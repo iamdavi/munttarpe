@@ -167,10 +167,6 @@ export const useDatabaseStore = defineStore("database", {
     },
     async createEvent(data, eventType) {
       let payload = { ...data, eventType: eventType };
-
-      if (eventType == 'day') {
-        delete payload.weeksday
-      }
       try {
         const docRef = await addDoc(collection(db, 'eventos'), payload)
         this.eventos.push({
@@ -179,9 +175,7 @@ export const useDatabaseStore = defineStore("database", {
         })
       } catch (error) {
         console.log(error);
-      } finally {
-
-      }
+      } finally { }
     },
     async deleteEvent(id) {
       this.loadingDeleteDoc = true

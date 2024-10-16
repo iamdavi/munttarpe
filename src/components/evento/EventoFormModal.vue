@@ -136,7 +136,7 @@ const form = ref({
   tipo: null,
   equipos: [],
   eventTime: null,
-  weeksDay: null,
+  weeksDay: [],
   descripcion: null,
 });
 
@@ -149,7 +149,7 @@ const clearFormFields = () => {
   form.value.tipo = null;
   form.value.equipos = [];
   form.value.eventTime = null;
-  form.value.weeksDay = null;
+  form.value.weeksDay = [];
   form.value.descripcion = null;
 };
 
@@ -162,8 +162,8 @@ watch(
       form.value.tipo = newVal.tipo;
       form.value.equipos = newVal.equipos;
       form.value.eventTime = newVal.eventTime;
-      form.value.weeksDay = newVal.weekdays;
-      form.value.descripcion = newVal.weekdays;
+      form.value.weeksDay = newVal.weeksDay;
+      form.value.descripcion = newVal.descripcion;
     } else {
       // Si no hay registro, limpiamos el formulario
       clearFormFields();
@@ -186,7 +186,7 @@ const closeDialog = () => {
 };
 
 // Función para guardar los datos
-const handleModalForm = async () => {
+const handleModalForm = async (event) => {
   loadingData.value = true;
   const results = await event;
   try {
