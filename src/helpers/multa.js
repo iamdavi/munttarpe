@@ -5,6 +5,7 @@ export const groupMultasByPlayer = async () => {
   await multaStore.getMultasJugador();
   await multaStore.getMultas();
   let result = [];
+  console.log(multaStore.multasJugador)
 
   for (const mt of multaStore.multasJugador) {
     if (!Object.keys(result).includes(mt.jugador)) {

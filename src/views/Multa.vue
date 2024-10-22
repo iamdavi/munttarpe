@@ -3,20 +3,19 @@
     <v-col>
       <div class="d-flex justify-space-between align-center">
         <div class="d-flex align-center ga-2">
-          <v-icon icon="mdi-invoice-text-outline" size="large"></v-icon>
-          <h1>Multas</h1>
+          <v-icon icon="mdi-invoice-clock-outline" size="large"></v-icon>
+          <h1>Multas pendientes</h1>
         </div>
-        <!--
         <v-btn
           class="float-right"
           color="green-darken-1"
           prepend-icon="mdi-plus"
           variant="outlined"
           @click="isDialogOpen = true"
+          :disabled="!multaStore.multaEquipo"
         >
           Crear
         </v-btn>
-		-->
       </div>
     </v-col>
   </v-row>
@@ -35,9 +34,11 @@
       <MultaListPagadasPendientes v-if="multaStore.multaEquipo" />
     </v-col>
   </v-row>
-  <v-fab id="fab-create-multa" extended prepend-icon="mdi-invoice-plus-outline" text="Crear" color="green-darken-4"
-    @click="isDialogOpen = true" :active="!!multaStore.multaEquipo"></v-fab>
-  <MultaFormModal actionType="crear" :isOpen="isDialogOpen" @closeDialog="isDialogOpen = false" />
+  <MultaFormModal
+    actionType="crear"
+    :isOpen="isDialogOpen"
+    @closeDialog="isDialogOpen = false"
+  />
 </template>
 
 <script setup>

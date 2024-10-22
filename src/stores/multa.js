@@ -21,6 +21,7 @@ export const useMultaStore = defineStore("multa", {
     jugadoresEquipo: [],
     multaEquipo: null,
     loadingDoc: false,
+    loadingUpdateDoc: false,
     loadingDeleteDoc: false,
   }),
   actions: {
@@ -112,11 +113,14 @@ export const useMultaStore = defineStore("multa", {
       }
     },
     // MultasJugador
-    async getMultasJugador() {
+    async getMultasJugador(pagados = false) {
       if (this.multasJugador.length !== 0) return;
       this.loadingDoc = true;
       try {
-        const q = query(collection(db, "multasJugador"));
+        const q = query(
+          collection(db, "multasJugador"),
+          where("pagado", "==", pagados)
+        );
         const qs = await getDocs(q);
         qs.forEach((d) => {
           this.multasJugador.push({
@@ -200,6 +204,28 @@ export const useMultaStore = defineStore("multa", {
         for (const value of Object.values(results)) {
           this.multasGroupedByJugador.push(value)
         }
+      }
+    },
+    async pagarMultasById(arrayIds) {
+      this.loadingUpdateDoc = true;
+      try {
+        const promesas = arrayIds.map(async (id) => {
+          const docRef = doc(db, 'multasJugador', id);
+          await updateDoc(docRef, { pagado: true });
+        });
+        await Promise.all(promesas);
+        this.multasJugador = this.multasJugador.filter(
+          (item) => !arrayIds.includes(item.id)
+        );
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.multasGroupedByJugador = []
+        const results = await groupMultasByPlayer();
+        for (const value of Object.values(results)) {
+          this.multasGroupedByJugador.push(value)
+        }
+        this.loadingUpdateDoc = false;
       }
     },
     async deleteMultaJugador(id) {
